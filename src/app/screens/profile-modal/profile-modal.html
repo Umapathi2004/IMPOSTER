@@ -1,0 +1,36 @@
+<div class="overlay">
+  <div class="modal">
+    <div class="drag-handle"></div>
+    <div class="modal-header">
+      <span class="modal-tag">IDENT // NEW OPERATIVE</span>
+      <div class="modal-title">CREATE PROFILE</div>
+      <div class="modal-sub">Your callsign is stored locally. No account needed.</div>
+    </div>
+
+    <div class="avatar-row">
+      @for (a of avatars; track a) {
+        <button class="avatar-btn" [class.selected]="avatar === a" (click)="select(a)">
+          <img [src]="a" [alt]="a" />
+        </button>
+      }
+    </div>
+
+    <div class="field">
+      <label>CALLSIGN</label>
+      <input
+        [value]="name"
+        (input)="onNameInput($event)"
+        maxlength="16"
+        placeholder="ENTER NAME..."
+        (keydown.enter)="confirm()" />
+    </div>
+
+    <button class="confirm-btn" [disabled]="!name.trim()" (click)="confirm()">
+      <i class="fa-solid fa-check"></i> CONFIRM IDENTITY
+    </button>
+
+    <button class="close-btn" (click)="close.emit()">
+      <i class="fa-solid fa-xmark"></i> CLOSE
+    </button>
+  </div>
+</div>

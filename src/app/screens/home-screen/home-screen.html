@@ -1,0 +1,108 @@
+<div class="container">
+    <div class="banner">
+        <div class="sys-ver">
+            <div></div>SYS.VER // 2.4.99
+        </div>
+        <div class="net-ver"><i class="fa-solid fa-wifi"></i>NET: {{ localIp }}</div>
+    </div>
+
+    <div class="top_section">
+        <div class="ring one"></div>
+        <div class="ring two"></div>
+        <div class="ring three"></div>
+        <div class="crosshair top"></div>
+        <div class="crosshair bottom"></div>
+        <div class="crosshair left"></div>
+        <div class="crosshair right"></div>
+        <div class="trk-label">TRK::ONLINE</div>
+        <img src="logo.png" alt="IMPOSTER Logo">
+    </div>
+
+    <div class="mid-label">
+        <span>SEC.A9 // RETICLE-LOCK</span>
+        <div class="mid-bar"></div>
+    </div>
+
+    <div class="title-section">
+        <div class="deck-label">DECK CONSOLE <span class="dot">●</span> TAC-LINK</div>
+        <div class="game-title">IMP<span>O</span>STER</div>
+        <div class="tagline">[ FIND WHO DOESN'T KNOW THE WORD ]</div>
+        <div class="local-badge"><span class="dot-green">●</span> LOCAL MULTIPLAYER — NO INTERNET REQUIRED</div>
+    </div>
+
+    <div class="actions">
+        <button class="btn-create" (click)="onCreateRoom()">
+            <div class="btn-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+            <div class="btn-text">
+                <span class="btn-sub">HOST NEW CHANNEL</span>
+                <span class="btn-main">CREATE ROOM</span>
+            </div>
+            <div class="btn-arrow">[ → ]</div>
+        </button>
+
+        <div class="btn-join" (click)="onJoinRoom()">
+            <div class="btn-icon join-icon"><i class="fa-solid fa-grip"></i></div>
+            <div class="btn-text">
+                <span class="btn-sub">SCAN FREQUENCY</span>
+                <span class="btn-main">JOIN ROOM</span>
+            </div>
+            <div class="code-box">CODE <span class="code-cursor"></span></div>
+        </div>
+    </div>
+
+    <div class="util-row">
+        <button class="util-btn"><i class="fa-solid fa-book-open"></i> FIELD MANUAL</button>
+        <button class="util-btn" [class.fx-active]="fxOn" (click)="toggleFx()">
+            <i class="fa-solid" [class.fa-volume-high]="fxOn" [class.fa-volume-xmark]="!fxOn"></i>
+            FX // CRT: {{ fxOn ? 'ON' : 'OFF' }}
+        </button>
+    </div>
+
+    <div class="radar-panel">
+        <div class="radar-header">
+            <span><i class="fa-solid fa-circle-nodes"></i> RADAR TELEMETRY MATRIX</span>
+            <span class="passive">PASSIVE</span>
+        </div>
+        <div class="radar-grid">
+            <div class="radar-cell">
+                <span class="cell-label">PACKETS</span>
+                <span class="cell-value green">STABLE // SYNC</span>
+            </div>
+            <div class="radar-cell">
+                <span class="cell-label">LATENCY</span>
+                <span class="cell-value">4MS LOW-JITTER</span>
+            </div>
+            <div class="radar-cell">
+                <span class="cell-label">TOPOLOGY</span>
+                <span class="cell-value">NODE: AD-HOC</span>
+            </div>
+            <div class="radar-cell">
+                <span class="cell-label">CAPACITY</span>
+                <span class="cell-value">4-12 CREW</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="slots">
+            <span class="slot active"></span>
+            <span class="slot"></span>
+            <span class="slot"></span>
+            SLOT 01/03
+        </div>
+        <div class="hash">HASH: #8F-09B</div>
+    </div>
+</div>
+
+@if (showProfileConfirm && profile) {
+    <app-profile-confirm
+        [profile]="profile"
+        [action]="pendingAction"
+        (confirm)="onConfirmContinue()"
+        (edit)="onConfirmEdit()"
+        (close)="showProfileConfirm = false" />
+}
+
+@if (showProfileModal) {
+    <app-profile-modal (done)="onProfileDone($event)" (close)="showProfileModal = false" />
+}

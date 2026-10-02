@@ -1,0 +1,32 @@
+<div class="container">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="back-btn" (click)="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+      <span class="topbar-path">SYS.DATA // D6</span>
+    </div>
+    <span class="topbar-title">WORD DATABASE // CATEGORY</span>
+  </div>
+
+  <div class="category-header">
+    <div class="category-icon"><i class="fa-solid fa-database"></i></div>
+    <div class="category-info">
+      <div class="category-label">ALL CATEGORIES:</div>
+      <div class="category-name">{{ active.label }}</div>
+      <div class="category-index">INDEX: {{ active.index }}</div>
+    </div>
+    <div class="word-count-badge">
+      <span class="word-count-num">{{ totalWords }}+</span>
+      <span class="word-count-sub">WORDS</span>
+    </div>
+  </div>
+
+  <div class="filter-row">
+    @for (cat of categories; track cat.id) {
+      <button class="filter-tab" [class.active]="selected === cat.id" (click)="select(cat.id)">
+        {{ cat.id === 'ALL' ? 'ALL' : cat.label }}
+      </button>
+    }
+  </div>
+
+</div>

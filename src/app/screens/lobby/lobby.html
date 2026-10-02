@@ -1,0 +1,201 @@
+<div class="container">
+
+  <div class="banner">
+    <button class="back-btn" (click)="goBack()"><i class="fa-solid fa-chevron-left"></i> LEAVE</button>
+    <span class="banner-title">ROOM // {{ roomId }}</span>
+    <span class="banner-state">{{ isHost ? 'HOST' : 'CREW' }}</span>
+  </div>
+
+  <div class="scroll-body">
+
+    <!-- Connection state -->
+    <div class="conn-bar" [class.connected]="connectionState === 'CONNECTED'" [class.failed]="connectionState === 'FAILED'">
+      <i class="fa-solid"
+        [class.fa-circle-notch]="connectionState === 'CONNECTING' || connectionState === 'SIGNALING'"
+        [class.fa-spin]="connectionState === 'CONNECTING' || connectionState === 'SIGNALING'"
+        [class.fa-circle-check]="connectionState === 'CONNECTED'"
+        [class.fa-circle-xmark]="connectionState === 'FAILED'"
+        [class.fa-tower-broadcast]="connectionState === 'WAITING_FOR_PLAYERS' || connectionState === 'CREATING_ROOM'"
+        [class.fa-satellite-dish]="connectionState === 'IDLE'">
+      </i>
+      {{ connectionState }}
+    </div>
+
+    <!-- Room info -->
+    <div class="room-info-row">
+      <div class="info-cell">
+        <span class="info-label">ROOM ID</span>
+        <span class="info-value">{{ roomId }}</span>
+      </div>
+      <div class="info-cell">
+        <span class="info-label">CATEGORY</span>
+        <span class="info-value">{{ config?.category ?? '—' }}</span>
+      </div>
+      <div class="info-cell">
+        <span class="info-label">MAX CREW</span>
+        <span class="info-value">{{ config?.maxPlayers ?? '—' }}</span>
+      </div>
+      <div class="info-cell">
+        <span class="info-label">IMPOSTORS</span>
+        <span class="info-value impostor">{{ config?.impostorCount ?? '—' }}</span>
+      </div>
+    </div>
+
+    <!-- Host actions -->
+    @if (isHost) {
+      <div class="host-actions">
+        <button class="action-btn edit" (click)="editRoom()">
+          <i class="fa-solid fa-pen"></i> EDIT ROOM
+        </button>
+        <button class="action-btn destroy" (click)="destroyRoom()">
+          <i class="fa-solid fa-trash"></i> DESTROY ROOM
+        </button>
+      </div>
+    }
+
+    <!-- ── HOST: QR OFFER DISPLAY ── -->
+    @if (isHost && qrChunks.length) {
+      <div class="qr-section">
+        <div class="qr-section-label">
+          <i class="fa-solid fa-qrcode"></i> INVITE QR — SHOW TO JOINER
+        </div>
+
+        @if (qrChunks.length > 1) {
+          <div class="chunk-nav">
+            <button class="chunk-btn" (click)="prevChunk()" [disabled]="currentChunkIdx === 0">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <span class="chunk-label">SCAN {{ currentChunkIdx + 1 }} / {{ qrChunks.length }}</span>
+            <button class="chunk-btn" (click)="nextChunk()" [disabled]="currentChunkIdx === qrChunks.length - 1">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        }
+
+        <div class="qr-card">
+          <div class="qr-top-row">
+            <div class="qr-dot"></div>
+            <span class="qr-label">SCAN TO JOIN</span>
+            <span class="qr-room-id">{{ roomId }}</span>
+          </div>
+          <div class="qr-img-wrap">
+            <img class="qr-img" [src]="qrImageUrl" alt="QR Code" />
+            <div class="qr-corner tl"></div>
+            <div class="qr-corner tr"></div>
+            <div class="qr-corner bl"></div>
+            <div class="qr-corner br"></div>
+          </div>
+          @if (qrChunks.length > 1) {
+            <div class="qr-hint">Show each QR chunk in order for joiner to scan</div>
+          }
+        </div>
+
+        <!-- Step 2: after joiner scans, host scans joiner's answer QR -->
+        <div class="answer-step">
+          <div class="answer-step-label">
+            <i class="fa-solid fa-arrow-right"></i>
+            AFTER JOINER SCANS — SCAN THEIR ANSWER QR
+          </div>
+          @if (answerStatus) {
+            <div class="answer-status" [class.ok]="answerStatus.includes('✔')">
+              <i class="fa-solid" [class.fa-check]="answerStatus.includes('✔')" [class.fa-circle-notch]="!answerStatus.includes('✔')" [class.fa-spin]="!answerStatus.includes('✔')"></i>
+              {{ answerStatus }}
+            </div>
+          }
+          @if (scanError) {
+            <div class="scan-error"><i class="fa-solid fa-triangle-exclamation"></i> {{ scanError }}</div>
+          }
+          @if (!answerStatus.includes('✔')) {
+            <button class="scan-answer-btn" (click)="openAnswerScanner()">
+              <i class="fa-solid fa-camera"></i> SCAN JOINER'S ANSWER QR
+            </button>
+          }
+        </div>
+
+      </div>
+    }
+
+  <!-- Answer scanner overlay -->
+  @if (showAnswerScanner) {
+    <div class="scanner-overlay">
+      <div class="scanner-card">
+        <div class="scanner-header">
+          <span class="scanner-title">SCAN JOINER'S ANSWER QR</span>
+          <button class="scanner-close" (click)="closeAnswerScanner()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="scanner-viewport">
+          <video #answerVideo class="scanner-video" autoplay playsinline muted></video>
+          <div class="scan-frame">
+            <div class="sf-corner tl"></div>
+            <div class="sf-corner tr"></div>
+            <div class="sf-corner bl"></div>
+            <div class="sf-corner br"></div>
+          </div>
+          @if (scanActive) { <div class="scan-line"></div> }
+        </div>
+        @if (answerStatus) {
+          <div class="chunk-progress">{{ answerStatus }}</div>
+        }
+        <div class="scanner-hint">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          POINT AT JOINER'S ANSWER QR
+        </div>
+      </div>
+    </div>
+  }
+
+    <!-- Player list -->
+    <div class="section-label">CREW MANIFEST — {{ allPlayers.length }} / {{ config?.maxPlayers ?? '?' }}</div>
+
+    <div class="player-list">
+      @for (p of allPlayers; track p.uid) {
+        <div class="player-row" [class.me]="p.uid === profile.uid">
+          <img class="player-avatar" [src]="p.avatar" [alt]="p.name" />
+          <div class="player-info">
+            <span class="player-name">{{ p.name }}</span>
+            <span class="player-role">{{ p.uid === profile.uid ? 'YOU' : 'CREW' }}</span>
+          </div>
+          @if (p.isHost) {
+            <div class="host-tag"><i class="fa-solid fa-tower-broadcast"></i> HOST</div>
+          }
+          @if (!p.isHost && p.uid !== profile.uid) {
+            <div class="connected-dot"></div>
+          }
+        </div>
+      }
+
+      <!-- Empty slots -->
+      @for (i of [].constructor((config?.maxPlayers ?? 4) - allPlayers.length); track $index) {
+        <div class="player-row empty">
+          <div class="empty-avatar"><i class="fa-solid fa-user-plus"></i></div>
+          <div class="player-info">
+            <span class="player-name muted">WAITING...</span>
+            <span class="player-role">EMPTY SLOT</span>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+
+  <!-- Sticky footer -->
+  <div class="sticky-footer">
+    @if (isHost) {
+      <button class="start-btn" [disabled]="!canStart" (click)="startGame()">
+        @if (!canStart) {
+          <i class="fa-solid fa-hourglass-half"></i>
+          WAITING FOR PLAYERS... ({{ allPlayers.length }}/{{ config?.maxPlayers }})
+        } @else {
+          <i class="fa-solid fa-play"></i> START GAME
+        }
+      </button>
+    } @else {
+      <div class="waiting-banner">
+        <i class="fa-solid fa-satellite-dish"></i> WAITING FOR HOST TO START...
+      </div>
+    }
+  </div>
+
+
+
+</div>

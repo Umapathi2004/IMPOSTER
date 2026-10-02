@@ -1,0 +1,2912 @@
+[
+  {
+    "word": "dog",
+    "hint": "Barks and is a loyal pet",
+    "category": "Animals"
+  },
+  {
+    "word": "cat",
+    "hint": "Pet that says meow",
+    "category": "Animals"
+  },
+  {
+    "word": "lion",
+    "hint": "King of the jungle",
+    "category": "Animals"
+  },
+  {
+    "word": "tiger",
+    "hint": "Big cat with stripes",
+    "category": "Animals"
+  },
+  {
+    "word": "horse",
+    "hint": "You can ride this animal",
+    "category": "Animals"
+  },
+  {
+    "word": "cow",
+    "hint": "Gives us milk",
+    "category": "Animals"
+  },
+  {
+    "word": "sheep",
+    "hint": "Gives wool",
+    "category": "Animals"
+  },
+  {
+    "word": "goat",
+    "hint": "Farm animal that says meh",
+    "category": "Animals"
+  },
+  {
+    "word": "pig",
+    "hint": "Pink farm animal that oinks",
+    "category": "Animals"
+  },
+  {
+    "word": "duck",
+    "hint": "Bird that says quack",
+    "category": "Animals"
+  },
+  {
+    "word": "hen",
+    "hint": "Female bird that lays eggs",
+    "category": "Animals"
+  },
+  {
+    "word": "rabbit",
+    "hint": "Long ears and hops",
+    "category": "Animals"
+  },
+  {
+    "word": "monkey",
+    "hint": "Climbs trees and loves bananas",
+    "category": "Animals"
+  },
+  {
+    "word": "elephant",
+    "hint": "Biggest land animal with a trunk",
+    "category": "Animals"
+  },
+  {
+    "word": "giraffe",
+    "hint": "Animal with a very long neck",
+    "category": "Animals"
+  },
+  {
+    "word": "zebra",
+    "hint": "Black and white stripes",
+    "category": "Animals"
+  },
+  {
+    "word": "bear",
+    "hint": "Big furry animal that loves honey",
+    "category": "Animals"
+  },
+  {
+    "word": "wolf",
+    "hint": "Wild animal that howls",
+    "category": "Animals"
+  },
+  {
+    "word": "fox",
+    "hint": "Clever orange wild animal",
+    "category": "Animals"
+  },
+  {
+    "word": "deer",
+    "hint": "Has antlers and runs fast",
+    "category": "Animals"
+  },
+  {
+    "word": "frog",
+    "hint": "Green jumper that says ribbit",
+    "category": "Animals"
+  },
+  {
+    "word": "snake",
+    "hint": "Long animal that hisses",
+    "category": "Animals"
+  },
+  {
+    "word": "fish",
+    "hint": "Swims in water",
+    "category": "Animals"
+  },
+  {
+    "word": "shark",
+    "hint": "Scary fish with sharp teeth",
+    "category": "Animals"
+  },
+  {
+    "word": "whale",
+    "hint": "Giant animal of the sea",
+    "category": "Animals"
+  },
+  {
+    "word": "dolphin",
+    "hint": "Smart, friendly sea animal",
+    "category": "Animals"
+  },
+  {
+    "word": "eagle",
+    "hint": "Big bird that flies very high",
+    "category": "Animals"
+  },
+  {
+    "word": "parrot",
+    "hint": "Colourful bird that can talk",
+    "category": "Animals"
+  },
+  {
+    "word": "owl",
+    "hint": "Bird that is awake at night",
+    "category": "Animals"
+  },
+  {
+    "word": "crow",
+    "hint": "Black bird that says caw",
+    "category": "Animals"
+  },
+  {
+    "word": "bee",
+    "hint": "Makes honey and can sting",
+    "category": "Animals"
+  },
+  {
+    "word": "ant",
+    "hint": "Tiny insect that works in a colony",
+    "category": "Animals"
+  },
+  {
+    "word": "spider",
+    "hint": "Has eight legs and spins a web",
+    "category": "Animals"
+  },
+  {
+    "word": "butterfly",
+    "hint": "Insect with colourful wings",
+    "category": "Animals"
+  },
+  {
+    "word": "camel",
+    "hint": "Desert animal with humps",
+    "category": "Animals"
+  },
+  {
+    "word": "panda",
+    "hint": "Black and white bear that eats bamboo",
+    "category": "Animals"
+  },
+  {
+    "word": "kangaroo",
+    "hint": "Jumps and carries a baby in a pouch",
+    "category": "Animals"
+  },
+  {
+    "word": "turtle",
+    "hint": "Slow animal with a shell",
+    "category": "Animals"
+  },
+  {
+    "word": "mouse",
+    "hint": "Tiny animal that loves cheese",
+    "category": "Animals"
+  },
+  {
+    "word": "donkey",
+    "hint": "Looks like a small horse with long ears",
+    "category": "Animals"
+  },
+  {
+    "word": "crab",
+    "hint": "Walks sideways and has claws",
+    "category": "Animals"
+  },
+  {
+    "word": "squirrel",
+    "hint": "Climbs trees and collects nuts",
+    "category": "Animals"
+  },
+  {
+    "word": "peacock",
+    "hint": "National bird with a beautiful tail",
+    "category": "Animals"
+  },
+  {
+    "word": "crocodile",
+    "hint": "Green reptile with big jaws",
+    "category": "Animals"
+  },
+  {
+    "word": "penguin",
+    "hint": "Bird that cannot fly and lives in the cold",
+    "category": "Animals"
+  },
+  {
+    "word": "bat",
+    "hint": "Flying animal that sleeps upside down",
+    "category": "Animals"
+  },
+  {
+    "word": "cheetah",
+    "hint": "Fastest animal on land",
+    "category": "Animals"
+  },
+  {
+    "word": "hippo",
+    "hint": "Big animal that loves mud and water",
+    "category": "Animals"
+  },
+  {
+    "word": "rice",
+    "hint": "White grains we eat daily",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "bread",
+    "hint": "Baked food used for toast",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "milk",
+    "hint": "White drink from cows",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "tea",
+    "hint": "Hot drink made with leaves",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "coffee",
+    "hint": "Hot brown drink for mornings",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "juice",
+    "hint": "Drink squeezed from fruit",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "water",
+    "hint": "We drink it when thirsty",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "egg",
+    "hint": "Laid by a hen",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "cake",
+    "hint": "Sweet treat for birthdays",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "pizza",
+    "hint": "Round Italian dish with cheese",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "burger",
+    "hint": "Patty inside a bun",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "soup",
+    "hint": "Hot liquid food in a bowl",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "salad",
+    "hint": "Fresh mixed raw vegetables",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "cheese",
+    "hint": "Made from milk, mice love it",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "butter",
+    "hint": "Yellow spread for bread",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "honey",
+    "hint": "Sweet golden food made by bees",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "sugar",
+    "hint": "Makes things sweet",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "salt",
+    "hint": "White powder that adds flavour to food",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "noodles",
+    "hint": "Long thin strands in a bowl",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "pasta",
+    "hint": "Italian food like spaghetti",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "biscuit",
+    "hint": "Crunchy snack to dip in tea",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "candy",
+    "hint": "Small sweet kids love",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "chocolate",
+    "hint": "Sweet brown treat made from cocoa",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "icecream",
+    "hint": "Cold sweet dessert on a cone",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "curry",
+    "hint": "Spicy dish eaten with rice",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "dosa",
+    "hint": "Thin crispy South Indian pancake",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "idli",
+    "hint": "Soft white steamed rice cake",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "sandwich",
+    "hint": "Filling between two slices of bread",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "chips",
+    "hint": "Crispy fried potato snack",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "jam",
+    "hint": "Sweet fruit spread",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "sauce",
+    "hint": "Goes on top of food, like ketchup",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "pickle",
+    "hint": "Sour spicy side dish",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "fries",
+    "hint": "Long fried potato sticks",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "cookie",
+    "hint": "Sweet baked round snack",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "pie",
+    "hint": "Baked dish with a crust",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "oil",
+    "hint": "Used for frying food",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "flour",
+    "hint": "Ground powder used to make bread",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "meat",
+    "hint": "Food that comes from animals",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "chicken",
+    "hint": "Popular bird meat",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "pepper",
+    "hint": "Black spice that makes you sneeze",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "lemonade",
+    "hint": "Sour and sweet cold drink",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "soda",
+    "hint": "Fizzy drink",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "popcorn",
+    "hint": "Snack eaten at the cinema",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "pancake",
+    "hint": "Flat round breakfast with syrup",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "samosa",
+    "hint": "Triangle snack filled with potato",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "vada",
+    "hint": "Round fried snack with a hole",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "biryani",
+    "hint": "Spiced rice dish with meat",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "sweet",
+    "hint": "Mithai eaten at festivals",
+    "category": "Food & Drink"
+  },
+  {
+    "word": "apple",
+    "hint": "Red fruit a day keeps the doctor away",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "banana",
+    "hint": "Long yellow fruit",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "mango",
+    "hint": "King of fruits",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "orange",
+    "hint": "Round citrus fruit and a colour",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "grape",
+    "hint": "Small fruit that grows in bunches",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "lemon",
+    "hint": "Sour yellow fruit",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "melon",
+    "hint": "Big sweet fruit with many seeds",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "papaya",
+    "hint": "Orange tropical fruit with black seeds",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "guava",
+    "hint": "Green fruit with pink inside",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "pear",
+    "hint": "Fruit shaped like a bulb",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "peach",
+    "hint": "Soft fuzzy orange fruit",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "plum",
+    "hint": "Small purple fruit",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "cherry",
+    "hint": "Tiny red fruit on top of a cake",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "berry",
+    "hint": "Tiny juicy fruit, like blue or straw kinds",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "coconut",
+    "hint": "Brown fruit with sweet water inside",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "pineapple",
+    "hint": "Spiky fruit with a crown",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "lime",
+    "hint": "Small green sour fruit",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "fig",
+    "hint": "Sweet soft fruit with tiny seeds",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "dates",
+    "hint": "Sweet brown dried fruit",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "kiwi",
+    "hint": "Brown fuzzy fruit with green inside",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "potato",
+    "hint": "Vegetable that grows underground",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "tomato",
+    "hint": "Red and round, used in sauce",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "onion",
+    "hint": "Makes you cry when you cut it",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "carrot",
+    "hint": "Orange vegetable rabbits love",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "garlic",
+    "hint": "Small white bulb with a strong smell",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "ginger",
+    "hint": "Spicy root used in tea",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "cabbage",
+    "hint": "Big round green leafy vegetable",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "spinach",
+    "hint": "Green leaves that make you strong",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "pumpkin",
+    "hint": "Big orange vegetable at Halloween",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "cucumber",
+    "hint": "Cool green vegetable used in salad",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "corn",
+    "hint": "Yellow kernels on a cob",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "beans",
+    "hint": "Small seeds in a pod",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "peas",
+    "hint": "Tiny green balls in a pod",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "beetroot",
+    "hint": "Purple-red root vegetable",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "radish",
+    "hint": "Small round spicy red root",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "brinjal",
+    "hint": "Purple vegetable also called eggplant",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "chilli",
+    "hint": "Small and very hot",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "mushroom",
+    "hint": "Umbrella-shaped fungus you can eat",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "lettuce",
+    "hint": "Leafy green used in burgers",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "broccoli",
+    "hint": "Looks like a tiny green tree",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "okra",
+    "hint": "Green finger-shaped vegetable",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "turnip",
+    "hint": "White and purple round root",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "pomegranate",
+    "hint": "Red fruit full of tiny ruby seeds",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "watermelon",
+    "hint": "Big green fruit, red inside",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "apricot",
+    "hint": "Small orange-yellow fruit",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "jackfruit",
+    "hint": "Huge spiky fruit with sweet yellow pods",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "tamarind",
+    "hint": "Sour brown pod used in cooking",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "celery",
+    "hint": "Crunchy green stalks",
+    "category": "Fruits & Vegetables"
+  },
+  {
+    "word": "door",
+    "hint": "You open it to enter a room",
+    "category": "Home"
+  },
+  {
+    "word": "window",
+    "hint": "Glass opening in a wall",
+    "category": "Home"
+  },
+  {
+    "word": "table",
+    "hint": "You eat your meals on it",
+    "category": "Home"
+  },
+  {
+    "word": "chair",
+    "hint": "You sit on it",
+    "category": "Home"
+  },
+  {
+    "word": "bed",
+    "hint": "You sleep on it",
+    "category": "Home"
+  },
+  {
+    "word": "sofa",
+    "hint": "Soft seat for many people",
+    "category": "Home"
+  },
+  {
+    "word": "lamp",
+    "hint": "Gives light on a desk",
+    "category": "Home"
+  },
+  {
+    "word": "fan",
+    "hint": "Spins to keep you cool",
+    "category": "Home"
+  },
+  {
+    "word": "clock",
+    "hint": "Shows the time",
+    "category": "Home"
+  },
+  {
+    "word": "mirror",
+    "hint": "Shows your face",
+    "category": "Home"
+  },
+  {
+    "word": "bucket",
+    "hint": "Used to carry water",
+    "category": "Home"
+  },
+  {
+    "word": "broom",
+    "hint": "Used to sweep the floor",
+    "category": "Home"
+  },
+  {
+    "word": "spoon",
+    "hint": "Used to eat soup",
+    "category": "Home"
+  },
+  {
+    "word": "fork",
+    "hint": "Has prongs for picking up food",
+    "category": "Home"
+  },
+  {
+    "word": "knife",
+    "hint": "Sharp tool for cutting",
+    "category": "Home"
+  },
+  {
+    "word": "plate",
+    "hint": "Flat dish for serving food",
+    "category": "Home"
+  },
+  {
+    "word": "cup",
+    "hint": "You drink tea from it",
+    "category": "Home"
+  },
+  {
+    "word": "bowl",
+    "hint": "Deep round dish for soup",
+    "category": "Home"
+  },
+  {
+    "word": "glass",
+    "hint": "Clear cup for water",
+    "category": "Home"
+  },
+  {
+    "word": "bottle",
+    "hint": "Container with a narrow neck",
+    "category": "Home"
+  },
+  {
+    "word": "pillow",
+    "hint": "Soft cushion for your head",
+    "category": "Home"
+  },
+  {
+    "word": "blanket",
+    "hint": "Keeps you warm in bed",
+    "category": "Home"
+  },
+  {
+    "word": "carpet",
+    "hint": "Soft covering on the floor",
+    "category": "Home"
+  },
+  {
+    "word": "curtain",
+    "hint": "Cloth that covers a window",
+    "category": "Home"
+  },
+  {
+    "word": "shelf",
+    "hint": "Where books are kept on the wall",
+    "category": "Home"
+  },
+  {
+    "word": "key",
+    "hint": "Opens a lock",
+    "category": "Home"
+  },
+  {
+    "word": "lock",
+    "hint": "Keeps a door safe",
+    "category": "Home"
+  },
+  {
+    "word": "roof",
+    "hint": "Top cover of a house",
+    "category": "Home"
+  },
+  {
+    "word": "wall",
+    "hint": "Side of a room",
+    "category": "Home"
+  },
+  {
+    "word": "floor",
+    "hint": "You walk on it inside a house",
+    "category": "Home"
+  },
+  {
+    "word": "kitchen",
+    "hint": "Room where food is cooked",
+    "category": "Home"
+  },
+  {
+    "word": "garden",
+    "hint": "Place with plants outside a house",
+    "category": "Home"
+  },
+  {
+    "word": "stairs",
+    "hint": "Steps that take you to the next floor",
+    "category": "Home"
+  },
+  {
+    "word": "fridge",
+    "hint": "Keeps food cold",
+    "category": "Home"
+  },
+  {
+    "word": "stove",
+    "hint": "Used for cooking over a flame",
+    "category": "Home"
+  },
+  {
+    "word": "oven",
+    "hint": "Hot box for baking",
+    "category": "Home"
+  },
+  {
+    "word": "iron",
+    "hint": "Makes clothes smooth",
+    "category": "Home"
+  },
+  {
+    "word": "soap",
+    "hint": "Used to wash hands",
+    "category": "Home"
+  },
+  {
+    "word": "towel",
+    "hint": "Used to dry after a bath",
+    "category": "Home"
+  },
+  {
+    "word": "comb",
+    "hint": "Used to tidy hair",
+    "category": "Home"
+  },
+  {
+    "word": "brush",
+    "hint": "Used to clean teeth",
+    "category": "Home"
+  },
+  {
+    "word": "candle",
+    "hint": "Wax stick with a flame",
+    "category": "Home"
+  },
+  {
+    "word": "ladder",
+    "hint": "Used to climb up high",
+    "category": "Home"
+  },
+  {
+    "word": "basket",
+    "hint": "Woven container for carrying",
+    "category": "Home"
+  },
+  {
+    "word": "pot",
+    "hint": "Used for cooking on a stove",
+    "category": "Home"
+  },
+  {
+    "word": "pan",
+    "hint": "Flat cooking vessel for frying",
+    "category": "Home"
+  },
+  {
+    "word": "television",
+    "hint": "Screen to watch shows",
+    "category": "Home"
+  },
+  {
+    "word": "cupboard",
+    "hint": "Closed storage for clothes or dishes",
+    "category": "Home"
+  },
+  {
+    "word": "shirt",
+    "hint": "Worn on the upper body",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "pants",
+    "hint": "Worn on both legs",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "dress",
+    "hint": "Girls wear it for parties",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "skirt",
+    "hint": "Worn from the waist down by girls",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "shoes",
+    "hint": "Worn on your feet to walk outside",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "socks",
+    "hint": "Worn inside shoes",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "hat",
+    "hint": "Worn on the head in the sun",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "cap",
+    "hint": "Hat with a front peak",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "scarf",
+    "hint": "Worn around the neck in cold weather",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "gloves",
+    "hint": "Keep your hands warm",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "jacket",
+    "hint": "Light coat with a zip",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "coat",
+    "hint": "Heavy clothing for winter",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "sweater",
+    "hint": "Knitted woollen top",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "belt",
+    "hint": "Holds your pants up",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "tie",
+    "hint": "Worn around the neck with a suit",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "saree",
+    "hint": "Long cloth worn by Indian women",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "jeans",
+    "hint": "Blue denim pants",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "shorts",
+    "hint": "Short pants for hot days",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "sandals",
+    "hint": "Open shoes for summer",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "boots",
+    "hint": "Strong shoes that cover the ankle",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "watch",
+    "hint": "Worn on the wrist to tell time",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "ring",
+    "hint": "Worn on a finger",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "necklace",
+    "hint": "Worn around the neck as jewellery",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "bracelet",
+    "hint": "Jewellery for the wrist",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "earring",
+    "hint": "Jewellery for the ear",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "bag",
+    "hint": "Used to carry things",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "umbrella",
+    "hint": "Keeps you dry in the rain",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "glasses",
+    "hint": "Help you see clearly",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "wallet",
+    "hint": "Holds your money and cards",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "uniform",
+    "hint": "Same clothes worn by all students",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "pocket",
+    "hint": "Small pouch sewn into clothes",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "button",
+    "hint": "Small round thing used to close a shirt",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "zip",
+    "hint": "Slides up and down to close a jacket",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "ribbon",
+    "hint": "Thin band used to tie hair or gifts",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "purse",
+    "hint": "Small bag for coins",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "slipper",
+    "hint": "Soft shoe worn at home",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "apron",
+    "hint": "Worn while cooking to keep clothes clean",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "helmet",
+    "hint": "Protects your head on a bike",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "mask",
+    "hint": "Covers your face",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "crown",
+    "hint": "Worn on a king's head",
+    "category": "Clothes & Accessories"
+  },
+  {
+    "word": "sun",
+    "hint": "Shines in the sky by day",
+    "category": "Nature"
+  },
+  {
+    "word": "moon",
+    "hint": "Shines in the sky by night",
+    "category": "Nature"
+  },
+  {
+    "word": "star",
+    "hint": "Twinkles in the night sky",
+    "category": "Nature"
+  },
+  {
+    "word": "sky",
+    "hint": "Blue space above us",
+    "category": "Nature"
+  },
+  {
+    "word": "cloud",
+    "hint": "White fluffy thing in the sky",
+    "category": "Nature"
+  },
+  {
+    "word": "rain",
+    "hint": "Water that falls from clouds",
+    "category": "Nature"
+  },
+  {
+    "word": "wind",
+    "hint": "Moving air you can feel",
+    "category": "Nature"
+  },
+  {
+    "word": "snow",
+    "hint": "White and cold, falls in winter",
+    "category": "Nature"
+  },
+  {
+    "word": "storm",
+    "hint": "Heavy rain with strong wind",
+    "category": "Nature"
+  },
+  {
+    "word": "thunder",
+    "hint": "Loud sound in the sky",
+    "category": "Nature"
+  },
+  {
+    "word": "lightning",
+    "hint": "Bright flash in the sky",
+    "category": "Nature"
+  },
+  {
+    "word": "rainbow",
+    "hint": "Seven colours after rain",
+    "category": "Nature"
+  },
+  {
+    "word": "river",
+    "hint": "Flowing water that runs to the sea",
+    "category": "Nature"
+  },
+  {
+    "word": "lake",
+    "hint": "Big still water surrounded by land",
+    "category": "Nature"
+  },
+  {
+    "word": "ocean",
+    "hint": "Very large body of salt water",
+    "category": "Nature"
+  },
+  {
+    "word": "sea",
+    "hint": "Salty water with waves",
+    "category": "Nature"
+  },
+  {
+    "word": "beach",
+    "hint": "Sandy place beside the sea",
+    "category": "Nature"
+  },
+  {
+    "word": "island",
+    "hint": "Land surrounded by water",
+    "category": "Nature"
+  },
+  {
+    "word": "mountain",
+    "hint": "Very high land you can climb",
+    "category": "Nature"
+  },
+  {
+    "word": "hill",
+    "hint": "Smaller than a mountain",
+    "category": "Nature"
+  },
+  {
+    "word": "valley",
+    "hint": "Low land between mountains",
+    "category": "Nature"
+  },
+  {
+    "word": "forest",
+    "hint": "Large area full of trees",
+    "category": "Nature"
+  },
+  {
+    "word": "jungle",
+    "hint": "Thick wild forest with animals",
+    "category": "Nature"
+  },
+  {
+    "word": "desert",
+    "hint": "Hot dry land with sand",
+    "category": "Nature"
+  },
+  {
+    "word": "cave",
+    "hint": "Big hole in a mountain",
+    "category": "Nature"
+  },
+  {
+    "word": "rock",
+    "hint": "Hard piece of stone",
+    "category": "Nature"
+  },
+  {
+    "word": "sand",
+    "hint": "Tiny grains found on a beach",
+    "category": "Nature"
+  },
+  {
+    "word": "stone",
+    "hint": "Small hard piece of rock",
+    "category": "Nature"
+  },
+  {
+    "word": "tree",
+    "hint": "Tall plant with a trunk",
+    "category": "Nature"
+  },
+  {
+    "word": "flower",
+    "hint": "Colourful part of a plant that smells nice",
+    "category": "Nature"
+  },
+  {
+    "word": "grass",
+    "hint": "Green plants covering the ground",
+    "category": "Nature"
+  },
+  {
+    "word": "leaf",
+    "hint": "Green part that grows on a tree",
+    "category": "Nature"
+  },
+  {
+    "word": "rose",
+    "hint": "Red flower with thorns",
+    "category": "Nature"
+  },
+  {
+    "word": "lotus",
+    "hint": "National flower that grows in ponds",
+    "category": "Nature"
+  },
+  {
+    "word": "seed",
+    "hint": "Plant it to grow a tree",
+    "category": "Nature"
+  },
+  {
+    "word": "root",
+    "hint": "Part of a plant under the ground",
+    "category": "Nature"
+  },
+  {
+    "word": "branch",
+    "hint": "Part of a tree that grows from the trunk",
+    "category": "Nature"
+  },
+  {
+    "word": "fire",
+    "hint": "Hot and bright, it burns",
+    "category": "Nature"
+  },
+  {
+    "word": "ice",
+    "hint": "Frozen water",
+    "category": "Nature"
+  },
+  {
+    "word": "earth",
+    "hint": "The planet we live on",
+    "category": "Nature"
+  },
+  {
+    "word": "fog",
+    "hint": "Thick cloud near the ground",
+    "category": "Nature"
+  },
+  {
+    "word": "wave",
+    "hint": "Moving water in the sea",
+    "category": "Nature"
+  },
+  {
+    "word": "waterfall",
+    "hint": "Water falling from a high place",
+    "category": "Nature"
+  },
+  {
+    "word": "volcano",
+    "hint": "Mountain that erupts with lava",
+    "category": "Nature"
+  },
+  {
+    "word": "field",
+    "hint": "Open land where crops grow",
+    "category": "Nature"
+  },
+  {
+    "word": "pond",
+    "hint": "Small pool of water",
+    "category": "Nature"
+  },
+  {
+    "word": "bush",
+    "hint": "Small plant with many branches",
+    "category": "Nature"
+  },
+  {
+    "word": "jasmine",
+    "hint": "Small white flower with a sweet smell",
+    "category": "Nature"
+  },
+  {
+    "word": "head",
+    "hint": "Top part of your body",
+    "category": "Body & Health"
+  },
+  {
+    "word": "hair",
+    "hint": "Grows on your head",
+    "category": "Body & Health"
+  },
+  {
+    "word": "eye",
+    "hint": "You see with it",
+    "category": "Body & Health"
+  },
+  {
+    "word": "ear",
+    "hint": "You listen with it",
+    "category": "Body & Health"
+  },
+  {
+    "word": "nose",
+    "hint": "You smell with it",
+    "category": "Body & Health"
+  },
+  {
+    "word": "mouth",
+    "hint": "You eat and speak with it",
+    "category": "Body & Health"
+  },
+  {
+    "word": "tooth",
+    "hint": "White part used to chew",
+    "category": "Body & Health"
+  },
+  {
+    "word": "tongue",
+    "hint": "Helps you taste",
+    "category": "Body & Health"
+  },
+  {
+    "word": "neck",
+    "hint": "Joins your head to your body",
+    "category": "Body & Health"
+  },
+  {
+    "word": "shoulder",
+    "hint": "Joins your arm to your body",
+    "category": "Body & Health"
+  },
+  {
+    "word": "arm",
+    "hint": "Between your shoulder and hand",
+    "category": "Body & Health"
+  },
+  {
+    "word": "hand",
+    "hint": "You write with it",
+    "category": "Body & Health"
+  },
+  {
+    "word": "finger",
+    "hint": "You have five on each hand",
+    "category": "Body & Health"
+  },
+  {
+    "word": "thumb",
+    "hint": "Shortest and thickest finger",
+    "category": "Body & Health"
+  },
+  {
+    "word": "nail",
+    "hint": "Hard cover at the tip of a finger",
+    "category": "Body & Health"
+  },
+  {
+    "word": "chest",
+    "hint": "Front of your body where the heart is",
+    "category": "Body & Health"
+  },
+  {
+    "word": "back",
+    "hint": "Opposite side of your belly",
+    "category": "Body & Health"
+  },
+  {
+    "word": "belly",
+    "hint": "Your tummy",
+    "category": "Body & Health"
+  },
+  {
+    "word": "leg",
+    "hint": "You walk using two of them",
+    "category": "Body & Health"
+  },
+  {
+    "word": "knee",
+    "hint": "Bends in the middle of your leg",
+    "category": "Body & Health"
+  },
+  {
+    "word": "foot",
+    "hint": "You stand on it",
+    "category": "Body & Health"
+  },
+  {
+    "word": "toe",
+    "hint": "Small part at the end of your foot",
+    "category": "Body & Health"
+  },
+  {
+    "word": "heart",
+    "hint": "Beats inside your chest",
+    "category": "Body & Health"
+  },
+  {
+    "word": "brain",
+    "hint": "Helps you think",
+    "category": "Body & Health"
+  },
+  {
+    "word": "skin",
+    "hint": "Covers your whole body",
+    "category": "Body & Health"
+  },
+  {
+    "word": "bone",
+    "hint": "Hard white part inside the body",
+    "category": "Body & Health"
+  },
+  {
+    "word": "blood",
+    "hint": "Red liquid in your veins",
+    "category": "Body & Health"
+  },
+  {
+    "word": "face",
+    "hint": "Front of your head",
+    "category": "Body & Health"
+  },
+  {
+    "word": "lip",
+    "hint": "Soft edge of your mouth",
+    "category": "Body & Health"
+  },
+  {
+    "word": "cheek",
+    "hint": "Side of your face below the eye",
+    "category": "Body & Health"
+  },
+  {
+    "word": "chin",
+    "hint": "Bottom of your face",
+    "category": "Body & Health"
+  },
+  {
+    "word": "elbow",
+    "hint": "Joint in the middle of your arm",
+    "category": "Body & Health"
+  },
+  {
+    "word": "wrist",
+    "hint": "Joint between hand and arm",
+    "category": "Body & Health"
+  },
+  {
+    "word": "ankle",
+    "hint": "Joint between foot and leg",
+    "category": "Body & Health"
+  },
+  {
+    "word": "fever",
+    "hint": "High body temperature when sick",
+    "category": "Body & Health"
+  },
+  {
+    "word": "cough",
+    "hint": "Sound you make when your throat is sore",
+    "category": "Body & Health"
+  },
+  {
+    "word": "medicine",
+    "hint": "Tablets or syrup to feel better",
+    "category": "Body & Health"
+  },
+  {
+    "word": "vitamin",
+    "hint": "Healthy nutrient found in fruits",
+    "category": "Body & Health"
+  },
+  {
+    "word": "sleep",
+    "hint": "You do it at night to rest",
+    "category": "Body & Health"
+  },
+  {
+    "word": "smile",
+    "hint": "Happy curve on your face",
+    "category": "Body & Health"
+  },
+  {
+    "word": "book",
+    "hint": "Has pages you read",
+    "category": "School"
+  },
+  {
+    "word": "pen",
+    "hint": "Writes with ink",
+    "category": "School"
+  },
+  {
+    "word": "pencil",
+    "hint": "Writes and can be erased",
+    "category": "School"
+  },
+  {
+    "word": "eraser",
+    "hint": "Rubs out pencil marks",
+    "category": "School"
+  },
+  {
+    "word": "ruler",
+    "hint": "Used to draw straight lines",
+    "category": "School"
+  },
+  {
+    "word": "notebook",
+    "hint": "Where students write notes",
+    "category": "School"
+  },
+  {
+    "word": "paper",
+    "hint": "Thin sheet to write or draw on",
+    "category": "School"
+  },
+  {
+    "word": "board",
+    "hint": "Teacher writes on it in class",
+    "category": "School"
+  },
+  {
+    "word": "chalk",
+    "hint": "White stick used on a blackboard",
+    "category": "School"
+  },
+  {
+    "word": "desk",
+    "hint": "Where a student sits and studies",
+    "category": "School"
+  },
+  {
+    "word": "class",
+    "hint": "Group of students in a room",
+    "category": "School"
+  },
+  {
+    "word": "teacher",
+    "hint": "Person who teaches students",
+    "category": "School"
+  },
+  {
+    "word": "student",
+    "hint": "Person who learns at school",
+    "category": "School"
+  },
+  {
+    "word": "lesson",
+    "hint": "One topic taught in a class",
+    "category": "School"
+  },
+  {
+    "word": "exam",
+    "hint": "Big test at the end of the year",
+    "category": "School"
+  },
+  {
+    "word": "test",
+    "hint": "Short check of what you learned",
+    "category": "School"
+  },
+  {
+    "word": "homework",
+    "hint": "Work you do at home for school",
+    "category": "School"
+  },
+  {
+    "word": "library",
+    "hint": "Place full of books to borrow",
+    "category": "School"
+  },
+  {
+    "word": "story",
+    "hint": "Tale with a beginning and an end",
+    "category": "School"
+  },
+  {
+    "word": "poem",
+    "hint": "Writing that often rhymes",
+    "category": "School"
+  },
+  {
+    "word": "letter",
+    "hint": "A, B or C is one of these",
+    "category": "School"
+  },
+  {
+    "word": "word",
+    "hint": "Made by joining letters",
+    "category": "School"
+  },
+  {
+    "word": "number",
+    "hint": "1, 2 and 3 are examples",
+    "category": "School"
+  },
+  {
+    "word": "map",
+    "hint": "Shows countries and roads",
+    "category": "School"
+  },
+  {
+    "word": "globe",
+    "hint": "Round model of the earth",
+    "category": "School"
+  },
+  {
+    "word": "paint",
+    "hint": "Coloured liquid used with a brush",
+    "category": "School"
+  },
+  {
+    "word": "drawing",
+    "hint": "Picture made with a pencil",
+    "category": "School"
+  },
+  {
+    "word": "music",
+    "hint": "Songs and melodies",
+    "category": "School"
+  },
+  {
+    "word": "dance",
+    "hint": "Moving your body to a beat",
+    "category": "School"
+  },
+  {
+    "word": "science",
+    "hint": "Subject about experiments and nature",
+    "category": "School"
+  },
+  {
+    "word": "maths",
+    "hint": "Subject about numbers and sums",
+    "category": "School"
+  },
+  {
+    "word": "history",
+    "hint": "Subject about the past",
+    "category": "School"
+  },
+  {
+    "word": "english",
+    "hint": "Language subject you are practising now",
+    "category": "School"
+  },
+  {
+    "word": "grammar",
+    "hint": "Rules of a language",
+    "category": "School"
+  },
+  {
+    "word": "spelling",
+    "hint": "How letters make a word",
+    "category": "School"
+  },
+  {
+    "word": "sum",
+    "hint": "Add numbers to get this",
+    "category": "School"
+  },
+  {
+    "word": "marks",
+    "hint": "Points you get in an exam",
+    "category": "School"
+  },
+  {
+    "word": "grade",
+    "hint": "Your level or score at school",
+    "category": "School"
+  },
+  {
+    "word": "bell",
+    "hint": "Rings to start or end class",
+    "category": "School"
+  },
+  {
+    "word": "playground",
+    "hint": "Where children play at school",
+    "category": "School"
+  },
+  {
+    "word": "lunch",
+    "hint": "Meal eaten in the afternoon",
+    "category": "School"
+  },
+  {
+    "word": "holiday",
+    "hint": "A day with no school",
+    "category": "School"
+  },
+  {
+    "word": "scissors",
+    "hint": "Used to cut paper",
+    "category": "School"
+  },
+  {
+    "word": "glue",
+    "hint": "Sticky stuff to join paper",
+    "category": "School"
+  },
+  {
+    "word": "crayon",
+    "hint": "Coloured wax stick for drawing",
+    "category": "School"
+  },
+  {
+    "word": "sharpener",
+    "hint": "Makes a pencil pointy",
+    "category": "School"
+  },
+  {
+    "word": "diary",
+    "hint": "Book where you write about your day",
+    "category": "School"
+  },
+  {
+    "word": "quiz",
+    "hint": "Fun set of questions",
+    "category": "School"
+  },
+  {
+    "word": "computer",
+    "hint": "Machine used for typing and learning",
+    "category": "School"
+  },
+  {
+    "word": "keyboard",
+    "hint": "Has keys for typing",
+    "category": "School"
+  },
+  {
+    "word": "screen",
+    "hint": "Shows pictures on a computer",
+    "category": "School"
+  },
+  {
+    "word": "printer",
+    "hint": "Puts words on paper",
+    "category": "School"
+  },
+  {
+    "word": "car",
+    "hint": "Four-wheeled vehicle for a family",
+    "category": "Transport"
+  },
+  {
+    "word": "bus",
+    "hint": "Big vehicle for many passengers",
+    "category": "Transport"
+  },
+  {
+    "word": "train",
+    "hint": "Runs on tracks",
+    "category": "Transport"
+  },
+  {
+    "word": "plane",
+    "hint": "Flies in the sky",
+    "category": "Transport"
+  },
+  {
+    "word": "ship",
+    "hint": "Big boat that crosses the ocean",
+    "category": "Transport"
+  },
+  {
+    "word": "boat",
+    "hint": "Small vessel that floats",
+    "category": "Transport"
+  },
+  {
+    "word": "bike",
+    "hint": "Two wheels with an engine",
+    "category": "Transport"
+  },
+  {
+    "word": "cycle",
+    "hint": "Two wheels with pedals",
+    "category": "Transport"
+  },
+  {
+    "word": "truck",
+    "hint": "Big vehicle that carries goods",
+    "category": "Transport"
+  },
+  {
+    "word": "auto",
+    "hint": "Three-wheeled yellow ride",
+    "category": "Transport"
+  },
+  {
+    "word": "taxi",
+    "hint": "Car you pay to ride in",
+    "category": "Transport"
+  },
+  {
+    "word": "van",
+    "hint": "Boxy vehicle for many people or goods",
+    "category": "Transport"
+  },
+  {
+    "word": "rocket",
+    "hint": "Flies to space",
+    "category": "Transport"
+  },
+  {
+    "word": "helicopter",
+    "hint": "Flies with a spinning blade on top",
+    "category": "Transport"
+  },
+  {
+    "word": "scooter",
+    "hint": "Small two-wheeler with a footboard",
+    "category": "Transport"
+  },
+  {
+    "word": "tractor",
+    "hint": "Farm vehicle with big back wheels",
+    "category": "Transport"
+  },
+  {
+    "word": "road",
+    "hint": "Cars drive on it",
+    "category": "Transport"
+  },
+  {
+    "word": "bridge",
+    "hint": "Crosses over a river",
+    "category": "Transport"
+  },
+  {
+    "word": "station",
+    "hint": "Where trains stop",
+    "category": "Transport"
+  },
+  {
+    "word": "airport",
+    "hint": "Where planes take off and land",
+    "category": "Transport"
+  },
+  {
+    "word": "harbour",
+    "hint": "Place where ships dock",
+    "category": "Transport"
+  },
+  {
+    "word": "ticket",
+    "hint": "You buy it to travel",
+    "category": "Transport"
+  },
+  {
+    "word": "driver",
+    "hint": "Person who steers a vehicle",
+    "category": "Transport"
+  },
+  {
+    "word": "engine",
+    "hint": "Makes a vehicle go",
+    "category": "Transport"
+  },
+  {
+    "word": "wheel",
+    "hint": "Round part that rolls",
+    "category": "Transport"
+  },
+  {
+    "word": "tyre",
+    "hint": "Rubber ring around a wheel",
+    "category": "Transport"
+  },
+  {
+    "word": "petrol",
+    "hint": "Fuel for cars",
+    "category": "Transport"
+  },
+  {
+    "word": "journey",
+    "hint": "A long trip from one place to another",
+    "category": "Transport"
+  },
+  {
+    "word": "traffic",
+    "hint": "Many vehicles stuck on the road",
+    "category": "Transport"
+  },
+  {
+    "word": "tunnel",
+    "hint": "Road that goes under a mountain",
+    "category": "Transport"
+  },
+  {
+    "word": "highway",
+    "hint": "Wide road for fast travel",
+    "category": "Transport"
+  },
+  {
+    "word": "school",
+    "hint": "Place where children learn",
+    "category": "Places"
+  },
+  {
+    "word": "hospital",
+    "hint": "Place where doctors treat patients",
+    "category": "Places"
+  },
+  {
+    "word": "market",
+    "hint": "Place to buy vegetables and fruits",
+    "category": "Places"
+  },
+  {
+    "word": "temple",
+    "hint": "Place of worship for Hindus",
+    "category": "Places"
+  },
+  {
+    "word": "church",
+    "hint": "Place of worship for Christians",
+    "category": "Places"
+  },
+  {
+    "word": "mosque",
+    "hint": "Place of worship for Muslims",
+    "category": "Places"
+  },
+  {
+    "word": "park",
+    "hint": "Green place with swings and benches",
+    "category": "Places"
+  },
+  {
+    "word": "zoo",
+    "hint": "Place where you see animals in cages",
+    "category": "Places"
+  },
+  {
+    "word": "shop",
+    "hint": "Place where things are sold",
+    "category": "Places"
+  },
+  {
+    "word": "bank",
+    "hint": "Place that keeps your money",
+    "category": "Places"
+  },
+  {
+    "word": "hotel",
+    "hint": "Place to stay when you travel",
+    "category": "Places"
+  },
+  {
+    "word": "cinema",
+    "hint": "Place to watch movies on a big screen",
+    "category": "Places"
+  },
+  {
+    "word": "village",
+    "hint": "Small place in the countryside",
+    "category": "Places"
+  },
+  {
+    "word": "city",
+    "hint": "Big place with many buildings",
+    "category": "Places"
+  },
+  {
+    "word": "farm",
+    "hint": "Place where crops and animals are raised",
+    "category": "Places"
+  },
+  {
+    "word": "factory",
+    "hint": "Place where goods are made",
+    "category": "Places"
+  },
+  {
+    "word": "office",
+    "hint": "Place where people work at desks",
+    "category": "Places"
+  },
+  {
+    "word": "museum",
+    "hint": "Place that shows old things",
+    "category": "Places"
+  },
+  {
+    "word": "stadium",
+    "hint": "Big ground where matches are played",
+    "category": "Places"
+  },
+  {
+    "word": "palace",
+    "hint": "Big home of a king",
+    "category": "Places"
+  },
+  {
+    "word": "tower",
+    "hint": "Very tall narrow building",
+    "category": "Places"
+  },
+  {
+    "word": "castle",
+    "hint": "Old fort with thick walls",
+    "category": "Places"
+  },
+  {
+    "word": "street",
+    "hint": "Road with houses on both sides",
+    "category": "Places"
+  },
+  {
+    "word": "house",
+    "hint": "Place where a family lives",
+    "category": "Places"
+  },
+  {
+    "word": "bakery",
+    "hint": "Shop that sells fresh bread",
+    "category": "Places"
+  },
+  {
+    "word": "pharmacy",
+    "hint": "Shop that sells medicine",
+    "category": "Places"
+  },
+  {
+    "word": "restaurant",
+    "hint": "Place where you order meals",
+    "category": "Places"
+  },
+  {
+    "word": "theatre",
+    "hint": "Place for plays and shows",
+    "category": "Places"
+  },
+  {
+    "word": "college",
+    "hint": "Place to study after school",
+    "category": "Places"
+  },
+  {
+    "word": "gym",
+    "hint": "Place to exercise and lift weights",
+    "category": "Places"
+  },
+  {
+    "word": "mall",
+    "hint": "Big building with many shops",
+    "category": "Places"
+  },
+  {
+    "word": "pool",
+    "hint": "Place to swim",
+    "category": "Places"
+  },
+  {
+    "word": "doctor",
+    "hint": "Treats sick people",
+    "category": "Jobs"
+  },
+  {
+    "word": "nurse",
+    "hint": "Takes care of patients in a hospital",
+    "category": "Jobs"
+  },
+  {
+    "word": "farmer",
+    "hint": "Grows crops in the field",
+    "category": "Jobs"
+  },
+  {
+    "word": "pilot",
+    "hint": "Flies an aeroplane",
+    "category": "Jobs"
+  },
+  {
+    "word": "police",
+    "hint": "Keeps people safe and catches thieves",
+    "category": "Jobs"
+  },
+  {
+    "word": "soldier",
+    "hint": "Protects the country",
+    "category": "Jobs"
+  },
+  {
+    "word": "chef",
+    "hint": "Cooks in a restaurant",
+    "category": "Jobs"
+  },
+  {
+    "word": "baker",
+    "hint": "Bakes bread and cakes",
+    "category": "Jobs"
+  },
+  {
+    "word": "tailor",
+    "hint": "Sews clothes",
+    "category": "Jobs"
+  },
+  {
+    "word": "barber",
+    "hint": "Cuts hair",
+    "category": "Jobs"
+  },
+  {
+    "word": "carpenter",
+    "hint": "Makes things from wood",
+    "category": "Jobs"
+  },
+  {
+    "word": "painter",
+    "hint": "Paints walls or pictures",
+    "category": "Jobs"
+  },
+  {
+    "word": "plumber",
+    "hint": "Fixes water pipes",
+    "category": "Jobs"
+  },
+  {
+    "word": "engineer",
+    "hint": "Designs and builds machines or bridges",
+    "category": "Jobs"
+  },
+  {
+    "word": "lawyer",
+    "hint": "Helps people in court",
+    "category": "Jobs"
+  },
+  {
+    "word": "judge",
+    "hint": "Decides cases in court",
+    "category": "Jobs"
+  },
+  {
+    "word": "actor",
+    "hint": "Performs in movies",
+    "category": "Jobs"
+  },
+  {
+    "word": "singer",
+    "hint": "Sings songs",
+    "category": "Jobs"
+  },
+  {
+    "word": "dancer",
+    "hint": "Performs with graceful moves",
+    "category": "Jobs"
+  },
+  {
+    "word": "artist",
+    "hint": "Creates paintings and sculptures",
+    "category": "Jobs"
+  },
+  {
+    "word": "writer",
+    "hint": "Writes books and stories",
+    "category": "Jobs"
+  },
+  {
+    "word": "clerk",
+    "hint": "Does paperwork in an office",
+    "category": "Jobs"
+  },
+  {
+    "word": "cook",
+    "hint": "Makes meals in the kitchen",
+    "category": "Jobs"
+  },
+  {
+    "word": "guard",
+    "hint": "Watches over a building",
+    "category": "Jobs"
+  },
+  {
+    "word": "fisherman",
+    "hint": "Catches fish in the sea",
+    "category": "Jobs"
+  },
+  {
+    "word": "miner",
+    "hint": "Digs for coal under the ground",
+    "category": "Jobs"
+  },
+  {
+    "word": "mechanic",
+    "hint": "Repairs cars",
+    "category": "Jobs"
+  },
+  {
+    "word": "electrician",
+    "hint": "Fixes wires and lights",
+    "category": "Jobs"
+  },
+  {
+    "word": "scientist",
+    "hint": "Does experiments in a lab",
+    "category": "Jobs"
+  },
+  {
+    "word": "athlete",
+    "hint": "Person who competes in sports",
+    "category": "Jobs"
+  },
+  {
+    "word": "shopkeeper",
+    "hint": "Owns and runs a shop",
+    "category": "Jobs"
+  },
+  {
+    "word": "gardener",
+    "hint": "Takes care of plants",
+    "category": "Jobs"
+  },
+  {
+    "word": "postman",
+    "hint": "Delivers letters",
+    "category": "Jobs"
+  },
+  {
+    "word": "designer",
+    "hint": "Plans how things should look",
+    "category": "Jobs"
+  },
+  {
+    "word": "developer",
+    "hint": "Writes code to build apps",
+    "category": "Jobs"
+  },
+  {
+    "word": "manager",
+    "hint": "Leads a team at work",
+    "category": "Jobs"
+  },
+  {
+    "word": "banker",
+    "hint": "Works in a bank",
+    "category": "Jobs"
+  },
+  {
+    "word": "astronaut",
+    "hint": "Travels to space",
+    "category": "Jobs"
+  },
+  {
+    "word": "firefighter",
+    "hint": "Puts out fires",
+    "category": "Jobs"
+  },
+  {
+    "word": "waiter",
+    "hint": "Serves food at a restaurant",
+    "category": "Jobs"
+  },
+  {
+    "word": "cleaner",
+    "hint": "Keeps a place neat and tidy",
+    "category": "Jobs"
+  },
+  {
+    "word": "cricket",
+    "hint": "Bat and ball game loved in India",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "football",
+    "hint": "Kick the ball into the goal",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "tennis",
+    "hint": "Hit a yellow ball over a net",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "hockey",
+    "hint": "Play with a stick and a puck or ball",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "chess",
+    "hint": "Board game with king and queen",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "carrom",
+    "hint": "Flick coins into the corner pockets",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "kabaddi",
+    "hint": "Raid game where you hold your breath",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "volleyball",
+    "hint": "Hit the ball over a high net with hands",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "badminton",
+    "hint": "Hit a shuttlecock with a racket",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "basketball",
+    "hint": "Throw the ball through a hoop",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "golf",
+    "hint": "Hit a small ball into a hole",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "boxing",
+    "hint": "Fight with gloves in a ring",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "race",
+    "hint": "Run to see who is fastest",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "swimming",
+    "hint": "Moving through water with your arms and legs",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "running",
+    "hint": "Moving fast on your feet",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "jumping",
+    "hint": "Leaping up into the air",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "yoga",
+    "hint": "Stretching and breathing exercise",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "kite",
+    "hint": "Flies on a string in the wind",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "ball",
+    "hint": "Round thing you throw or kick",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "wicket",
+    "hint": "Three stumps in cricket",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "goal",
+    "hint": "Score it by putting the ball in the net",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "team",
+    "hint": "Group of players on the same side",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "coach",
+    "hint": "Trains players",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "player",
+    "hint": "Person who takes part in a game",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "match",
+    "hint": "A game between two teams",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "score",
+    "hint": "Points you earn in a game",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "trophy",
+    "hint": "Cup given to the winner",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "medal",
+    "hint": "Gold, silver or bronze prize",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "champion",
+    "hint": "The winner of a competition",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "referee",
+    "hint": "Makes sure players follow the rules",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "whistle",
+    "hint": "Blown to start or stop a game",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "net",
+    "hint": "Stretched mesh used in tennis or football",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "racket",
+    "hint": "Used to hit a shuttlecock",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "puzzle",
+    "hint": "Pieces you fit together to solve",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "cards",
+    "hint": "Deck of 52 for playing games",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "dice",
+    "hint": "Cube you roll, numbered one to six",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "ludo",
+    "hint": "Board game with colourful tokens and dice",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "marbles",
+    "hint": "Small glass balls kids flick",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "swing",
+    "hint": "Seat that moves back and forth in a park",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "slide",
+    "hint": "Playground ramp you go down",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "skating",
+    "hint": "Gliding on wheels or ice",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "climbing",
+    "hint": "Going up a wall or mountain with your hands",
+    "category": "Sports & Games"
+  },
+  {
+    "word": "happy",
+    "hint": "Feeling when you smile",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "sad",
+    "hint": "Feeling when you cry",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "angry",
+    "hint": "Feeling when you shout",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "brave",
+    "hint": "Not afraid of danger",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "kind",
+    "hint": "Gentle and helpful to others",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "shy",
+    "hint": "Feeling nervous to talk to others",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "proud",
+    "hint": "Feeling good about what you did",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "lazy",
+    "hint": "Does not want to work",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "tired",
+    "hint": "Feeling when you need rest",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "hungry",
+    "hint": "Feeling when you need food",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "thirsty",
+    "hint": "Feeling when you need water",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "sleepy",
+    "hint": "Feeling when your eyes close",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "excited",
+    "hint": "Very happy about something coming",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "scared",
+    "hint": "Feeling afraid",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "funny",
+    "hint": "Makes you laugh",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "calm",
+    "hint": "Quiet and peaceful",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "love",
+    "hint": "Deep caring for someone",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "friend",
+    "hint": "Someone you like and trust",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "family",
+    "hint": "Parents, children and relatives",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "mother",
+    "hint": "Your mom",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "father",
+    "hint": "Your dad",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "brother",
+    "hint": "Boy who has the same parents as you",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "sister",
+    "hint": "Girl who has the same parents as you",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "baby",
+    "hint": "Very young child",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "uncle",
+    "hint": "Your parent's brother",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "aunt",
+    "hint": "Your parent's sister",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "grandma",
+    "hint": "Your parent's mother",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "grandpa",
+    "hint": "Your parent's father",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "cousin",
+    "hint": "Your uncle's or aunt's child",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "neighbour",
+    "hint": "Person who lives next door",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "king",
+    "hint": "Male ruler who wears a crown",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "queen",
+    "hint": "Female ruler of a kingdom",
+    "category": "People & Feelings"
+  },
+  {
+    "word": "phone",
+    "hint": "You call people with it",
+    "category": "Technology"
+  },
+  {
+    "word": "laptop",
+    "hint": "Portable computer",
+    "category": "Technology"
+  },
+  {
+    "word": "internet",
+    "hint": "Connects the whole world online",
+    "category": "Technology"
+  },
+  {
+    "word": "camera",
+    "hint": "Takes photos",
+    "category": "Technology"
+  },
+  {
+    "word": "radio",
+    "hint": "Plays songs and news from the air",
+    "category": "Technology"
+  },
+  {
+    "word": "robot",
+    "hint": "Machine that can move and work like a person",
+    "category": "Technology"
+  },
+  {
+    "word": "battery",
+    "hint": "Gives power to a toy or phone",
+    "category": "Technology"
+  },
+  {
+    "word": "charger",
+    "hint": "Fills up your phone's power",
+    "category": "Technology"
+  },
+  {
+    "word": "cable",
+    "hint": "Wire that connects devices",
+    "category": "Technology"
+  },
+  {
+    "word": "video",
+    "hint": "Moving pictures with sound",
+    "category": "Technology"
+  },
+  {
+    "word": "game",
+    "hint": "Fun thing you play on a phone",
+    "category": "Technology"
+  },
+  {
+    "word": "app",
+    "hint": "Small program on your phone",
+    "category": "Technology"
+  },
+  {
+    "word": "email",
+    "hint": "Letter sent through the internet",
+    "category": "Technology"
+  },
+  {
+    "word": "website",
+    "hint": "Page you open in a browser",
+    "category": "Technology"
+  },
+  {
+    "word": "password",
+    "hint": "Secret word to unlock your account",
+    "category": "Technology"
+  },
+  {
+    "word": "speaker",
+    "hint": "Makes music loud",
+    "category": "Technology"
+  },
+  {
+    "word": "headphone",
+    "hint": "Worn on the ears to listen privately",
+    "category": "Technology"
+  },
+  {
+    "word": "remote",
+    "hint": "Changes the TV channel from far",
+    "category": "Technology"
+  },
+  {
+    "word": "bulb",
+    "hint": "Glass light that glows",
+    "category": "Technology"
+  },
+  {
+    "word": "switch",
+    "hint": "Turns a light on or off",
+    "category": "Technology"
+  },
+  {
+    "word": "wire",
+    "hint": "Thin metal strand that carries electricity",
+    "category": "Technology"
+  },
+  {
+    "word": "magnet",
+    "hint": "Pulls iron towards it",
+    "category": "Technology"
+  },
+  {
+    "word": "network",
+    "hint": "Connected computers or phones",
+    "category": "Technology"
+  },
+  {
+    "word": "tablet",
+    "hint": "Flat touch screen bigger than a phone",
+    "category": "Technology"
+  },
+  {
+    "word": "drone",
+    "hint": "Small flying camera machine",
+    "category": "Technology"
+  },
+  {
+    "word": "wifi",
+    "hint": "Wireless internet at home",
+    "category": "Technology"
+  },
+  {
+    "word": "photo",
+    "hint": "Picture taken by a camera",
+    "category": "Technology"
+  },
+  {
+    "word": "selfie",
+    "hint": "Photo you take of yourself",
+    "category": "Technology"
+  },
+  {
+    "word": "emoji",
+    "hint": "Tiny smiley picture in chat",
+    "category": "Technology"
+  },
+  {
+    "word": "folder",
+    "hint": "Holds many files together",
+    "category": "Technology"
+  },
+  {
+    "word": "file",
+    "hint": "A document saved on a computer",
+    "category": "Technology"
+  },
+  {
+    "word": "link",
+    "hint": "Click it to open a web page",
+    "category": "Technology"
+  }
+]

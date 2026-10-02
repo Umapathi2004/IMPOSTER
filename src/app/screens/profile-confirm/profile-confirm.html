@@ -1,0 +1,26 @@
+<div class="overlay">
+  <div class="sheet">
+    <div class="drag-handle"></div>
+
+    <div class="sheet-tag">OPERATIVE // IDENTIFIED</div>
+
+    <div class="profile-card">
+      <img class="profile-avatar" [src]="profile.avatar" [alt]="profile.name" />
+      <div class="profile-info">
+        <div class="profile-label">CALLSIGN</div>
+        <div class="profile-name">{{ profile.name }}</div>
+      </div>
+      <button class="edit-btn" (click)="edit.emit()">
+        <i class="fa-solid fa-pen"></i> EDIT
+      </button>
+    </div>
+
+    <button class="continue-btn" (click)="confirm.emit()">
+      <i class="fa-solid fa-arrow-right"></i> CONTINUE AS {{ profile.name }}
+    </button>
+
+    <button class="close-btn" (click)="close.emit()">
+      <i class="fa-solid fa-xmark"></i> CLOSE
+    </button>
+  </div>
+</div>

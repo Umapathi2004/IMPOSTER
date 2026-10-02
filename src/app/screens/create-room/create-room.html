@@ -1,0 +1,112 @@
+<div class="container">
+
+  <div class="banner">
+    <button class="back-btn" (click)="goBack()"><i class="fa-solid fa-chevron-left"></i> BACK</button>
+    <span class="banner-title">{{ isEditing ? 'EDIT ROOM' : 'HOST NEW CHANNEL' }}</span>
+    <span class="banner-tag">{{ isEditing ? 'EDIT' : 'CREATE ROOM' }}</span>
+  </div>
+
+  <div class="scroll-body">
+
+    <div class="host-card">
+      <img [src]="profile.avatar" [alt]="profile.name" class="host-avatar" />
+      <div class="host-info">
+        <span class="host-label">HOST OPERATIVE</span>
+        <span class="host-name">{{ profile.name }}</span>
+      </div>
+      <div class="host-badge"><i class="fa-solid fa-tower-broadcast"></i></div>
+    </div>
+
+    <!-- Category picker -->
+    @if (activeCategory) {
+      <div class="section">
+        <div class="topbar-row">
+          <span class="topbar-path">SYS.DATA // D6</span>
+          <span class="topbar-title-sm">WORD DATABASE // CATEGORY</span>
+        </div>
+
+        <div class="category-header">
+          <div class="category-icon"><i class="fa-solid fa-database"></i></div>
+          <div class="category-info">
+            <div class="category-label">{{ activeCategory.id === 'ALL' ? 'ALL CATEGORIES:' : 'CATEGORY:' }}</div>
+            <div class="category-name">{{ activeCategory.label }}</div>
+            <div class="category-index">INDEX: {{ activeCategory.index }}</div>
+          </div>
+          <div class="word-count-badge">
+            <span class="word-count-num">{{ activeCategory.count }}+</span>
+            <span class="word-count-sub">WORDS</span>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          @for (cat of categories; track cat.id) {
+            <button class="filter-tab" [class.active]="selectedCategory === cat.id" (click)="selectCategory(cat.id)">
+              {{ cat.id === 'ALL' ? 'ALL' : cat.label }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Player count -->
+    <div class="section">
+      <div class="section-label">NUMBER OF PLAYERS</div>
+      <div class="counter-row">
+        <button class="counter-btn" (click)="adjustPlayers(-1)" [disabled]="playerCount <= playerMin"><i class="fa-solid fa-minus"></i></button>
+        <div class="counter-display">
+          <span class="counter-value">{{ playerCount }}</span>
+          <span class="counter-sub">CREW</span>
+        </div>
+        <button class="counter-btn" (click)="adjustPlayers(1)" [disabled]="playerCount >= playerMax"><i class="fa-solid fa-plus"></i></button>
+      </div>
+      <div class="player-pips">
+        @for (i of [].constructor(playerMax); track $index) {
+          <div class="pip" [class.active]="$index < playerCount"></div>
+        }
+      </div>
+    </div>
+
+    <!-- Impostor count -->
+    <div class="section">
+      <div class="section-label">NUMBER OF IMPOSTORS</div>
+      <div class="counter-row">
+        <button class="counter-btn" (click)="adjustImpostors(-1)" [disabled]="impostorCount <= 1"><i class="fa-solid fa-minus"></i></button>
+        <div class="counter-display">
+          <span class="counter-value impostor">{{ impostorCount }}</span>
+          <span class="counter-sub">IMPOSTOR{{ impostorCount > 1 ? 'S' : '' }}</span>
+        </div>
+        <button class="counter-btn" (click)="adjustImpostors(1)" [disabled]="impostorCount >= maxImpostors"><i class="fa-solid fa-plus"></i></button>
+      </div>
+      <div class="impostor-hint">Max {{ maxImpostors }} for {{ playerCount }} players</div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary">
+      <div class="summary-cell">
+        <span class="summary-label">CATEGORY</span>
+        <span class="summary-value cat">{{ activeCategory ? (activeCategory.id === 'ALL' ? 'ALL' : activeCategory.label) : '—' }}</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">PLAYERS</span>
+        <span class="summary-value">{{ playerCount }}</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">IMPOSTORS</span>
+        <span class="summary-value impostor">{{ impostorCount }}</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">CREW</span>
+        <span class="summary-value">{{ playerCount - impostorCount }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sticky-footer">
+    <button class="launch-btn" (click)="launch()">
+      <i class="fa-solid fa-{{ isEditing ? 'floppy-disk' : 'tower-broadcast' }}"></i>
+      {{ isEditing ? 'SAVE CHANGES' : 'CREATE ROOM' }}
+    </button>
+  </div>
+
+</div>
