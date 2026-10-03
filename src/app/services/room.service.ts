@@ -1,12 +1,21 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ProfileService, UserProfile } from './profile.service';
+import { WordService } from './word.service';
+import { environment } from '../../environments/environment';
 
 export interface RoomConfig {
   roomId: string;
   maxPlayers: number;
   impostorCount: number;
   category: string;
+}
+
+export interface GameAssignment {
+  isImpostor: boolean;
+  word: string | null;
+  players: PlayerInfo[];
+  config: RoomConfig;
 }
 
 export interface PlayerInfo {
@@ -54,7 +63,8 @@ export class RoomService implements OnDestroy {
   activeRooms$      = new BehaviorSubject<ActiveRoom[]>([]);
   error$            = new BehaviorSubject<string>('');
   messages$         = new Subject<GameMessage>();
-  gameStart$        = new Subject<{ config: RoomConfig; players: PlayerInfo[] }>();
+  gameStart$        = new Subject<GameAssignment>();
+  lastAssignment: GameAssignment | null = null;
   roomClosed$       = new Subject<string>();
 
   config: RoomConfig | null = null;
@@ -67,7 +77,7 @@ export class RoomService implements OnDestroy {
   private reconnectTimer: any = null;
   private pingTimer: any = null;
 
-  constructor(private profileService: ProfileService) {
+  constructor(private profileService: ProfileService, private wordService: WordService) {
     // Connect to WebSocket immediately to receive live active rooms
     this.ensureWebSocketConnected();
   }
@@ -75,20 +85,17 @@ export class RoomService implements OnDestroy {
   // ── Helper: URLs ──────────────────────────────────────────────────────────
 
   private getApiUrl(path: string): string {
-    if (window.location.port === '3000' || !window.location.port) {
-      return path;
-    }
-    const host = window.location.hostname || 'localhost';
-    const protocol = window.location.protocol || 'http:';
-    return `${protocol}//${host}:3000${path}`;
+    return `${environment.BACKEND_URL}${path}`;
   }
 
   private getWsUrl(): string {
-    const isHttps = window.location.protocol === 'https:';
-    const proto = isHttps ? 'wss:' : 'ws:';
-    const host = window.location.hostname || 'localhost';
-    const port = window.location.port === '3000' || !window.location.port ? '' : ':3000';
-    return `${proto}//${host}${port}/ws`;
+    const base = environment.BACKEND_URL;
+    if (base) {
+      return base.replace(/^http/, 'ws') + '/ws';
+    }
+    // Relative — same host, derive ws protocol from page protocol
+    const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    return `${proto}//${window.location.host}/ws`;
   }
 
   // ── Persistent Single WebSocket Connection ────────────────────────────────
@@ -189,7 +196,14 @@ export class RoomService implements OnDestroy {
         if (msg.config && msg.players) {
           this.config = msg.config;
           this.players$.next(msg.players);
-          this.gameStart$.next({ config: msg.config, players: msg.players });
+          const assignment: GameAssignment = {
+            config: msg.config,
+            players: msg.players,
+            isImpostor: !!msg.isImpostor,
+            word: msg.word ?? null,
+          };
+          this.lastAssignment = assignment;
+          this.gameStart$.next(assignment);
         }
         break;
       }
@@ -398,11 +412,15 @@ export class RoomService implements OnDestroy {
   async startGame(): Promise<boolean> {
     if (!this.currentRoomId) return false;
 
+    // Pick a random word from the selected category
+    const words = this.wordService.getWords(this.config?.category || 'ALL');
+    const picked = words.length ? words[Math.floor(Math.random() * words.length)] : null;
+
     try {
       const res = await fetch(this.getApiUrl(`/api/rooms/${this.currentRoomId}/start`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uid: this.myPlayerId }),
+        body: JSON.stringify({ uid: this.myPlayerId, word: picked?.word ?? 'UNKNOWN' }),
       });
 
       if (!res.ok) {
@@ -458,6 +476,7 @@ export class RoomService implements OnDestroy {
     this.currentRoomId = null;
     this.config = null;
     this.isHost = false;
+    this.lastAssignment = null;
     this.state$.next('idle');
     this.connectionState$.next('IDLE');
     this.players$.next([]);

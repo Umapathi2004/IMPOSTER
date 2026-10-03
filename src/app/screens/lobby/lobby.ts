@@ -20,7 +20,7 @@ export class Lobby implements OnInit, OnDestroy {
   qrImageUrl = '';
   copied = false;
 
-  connectionState = 'CONNECTING';
+  connectionState = 'IDLE';
   gameStarted = false;
 
   get emptySlots(): number[] {
@@ -56,6 +56,9 @@ export class Lobby implements OnInit, OnDestroy {
       if (this.profile) {
         await this.roomService.joinRoom(this.roomId);
       }
+    } else {
+      // Already in room — re-sync room state from server
+      this.roomService.ensureWebSocketConnected();
     }
 
     // Generate clean QR code of the room ID
@@ -78,9 +81,9 @@ export class Lobby implements OnInit, OnDestroy {
       this.connectionState = s;
     }));
 
-    this.subs.add(this.roomService.gameStart$.subscribe(() => {
+    this.subs.add(this.roomService.gameStart$.subscribe(assignment => {
       this.gameStarted = true;
-      // When ready: this.router.navigate(['/game', this.roomId]);
+      this.router.navigate(['/game', this.roomId]);
     }));
 
     this.subs.add(this.roomService.roomClosed$.subscribe(reason => {

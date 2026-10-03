@@ -4,6 +4,7 @@ import { CreateRoom } from './screens/create-room/create-room';
 import { WordCategory } from './screens/word-category/word-category';
 import { Lobby } from './screens/lobby/lobby';
 import { JoinRoom } from './screens/join-room/join-room';
+import { Game } from './screens/game/game';
 
 export const routes: Routes = [
     { path: '', component: HomeScreen },
@@ -11,4 +12,5 @@ export const routes: Routes = [
     { path: 'word-category', component: WordCategory },
     { path: 'lobby/:id', component: Lobby },
     { path: 'join', component: JoinRoom },
+    { path: 'game/:id', component: Game },
 ];

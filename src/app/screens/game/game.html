@@ -1,0 +1,184 @@
+<div class="container">
+
+  <!-- ── PHASE: REVEAL ── -->
+  @if (phase === 'reveal') {
+    <div class="phase-wrap">
+      <div class="phase-header">
+        <span class="room-tag">ROOM // {{ roomId }}</span>
+        <span class="phase-label">ROLE REVEAL</span>
+      </div>
+
+      @if (!revealed) {
+        <div class="reveal-card tap-card" (click)="tapReveal()">
+          <div class="tap-icon"><i class="fa-solid fa-hand-pointer"></i></div>
+          <div class="tap-title">TAP TO REVEAL YOUR ROLE</div>
+          <div class="tap-hint">Keep your screen private</div>
+        </div>
+      } @else {
+        <div class="reveal-card" [class.impostor-card]="isImpostor" [class.crew-card]="!isImpostor">
+          <div class="role-badge" [class.impostor]="isImpostor">
+            <i class="fa-solid" [class.fa-user-secret]="isImpostor" [class.fa-user-astronaut]="!isImpostor"></i>
+            {{ isImpostor ? 'IMPOSTOR' : 'CREW MEMBER' }}
+          </div>
+
+          @if (!isImpostor) {
+            <div class="word-section">
+              <div class="word-label">THE SECRET WORD IS</div>
+              <div class="word-value">{{ word }}</div>
+              <div class="word-hint">Describe it without saying the word</div>
+            </div>
+          } @else {
+            <div class="word-section">
+              <div class="word-label">YOUR MISSION</div>
+              <div class="impostor-hint">Blend in. Don't get caught.<br>Figure out the secret word.</div>
+            </div>
+          }
+        </div>
+
+        <button class="primary-btn" (click)="proceedToDiscuss()">
+          <i class="fa-solid fa-comments"></i> START DISCUSSION
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ── PHASE: DISCUSS ── -->
+  @if (phase === 'discuss') {
+    <div class="phase-wrap">
+      <div class="phase-header">
+        <span class="room-tag">ROOM // {{ roomId }}</span>
+        <span class="phase-label">DISCUSSION</span>
+      </div>
+
+      <div class="timer-ring" [class.urgent]="discussSeconds <= 30">
+        <div class="timer-value">{{ timerDisplay }}</div>
+        <div class="timer-sub">REMAINING</div>
+      </div>
+
+      <div class="discuss-hint">
+        <i class="fa-solid fa-circle-info"></i>
+        @if (isImpostor) {
+          You are the IMPOSTOR — listen carefully and blend in
+        } @else {
+          Describe the word <strong>{{ word }}</strong> without saying it
+        }
+      </div>
+
+      <div class="player-chips">
+        @for (p of players; track p.uid) {
+          <div class="player-chip" [class.me]="p.uid === myUid">
+            <img [src]="p.avatar" [alt]="p.name" />
+            <span>{{ p.name }}</span>
+            @if (p.uid === myUid) { <span class="you-tag">YOU</span> }
+          </div>
+        }
+      </div>
+
+      <button class="ghost-btn" (click)="skipDiscuss()">
+        <i class="fa-solid fa-forward"></i> SKIP TO VOTE
+      </button>
+    </div>
+  }
+
+  <!-- ── PHASE: VOTE ── -->
+  @if (phase === 'vote') {
+    <div class="phase-wrap">
+      <div class="phase-header">
+        <span class="room-tag">ROOM // {{ roomId }}</span>
+        <span class="phase-label">VOTE</span>
+      </div>
+
+      <div class="vote-title">
+        @if (!votedFor) {
+          WHO IS THE IMPOSTOR?
+        } @else {
+          VOTE CAST — WAITING FOR OTHERS...
+          <div class="vote-progress">{{ votes.size }} / {{ players.length }}</div>
+        }
+      </div>
+
+      <div class="vote-list">
+        @for (p of players; track p.uid) {
+          @if (p.uid !== myUid) {
+            <button class="vote-row"
+              [class.voted]="votedFor === p.uid"
+              [class.disabled]="!!votedFor"
+              (click)="castVote(p.uid)">
+              <img class="vote-avatar" [src]="p.avatar" [alt]="p.name" />
+              <span class="vote-name">{{ p.name }}</span>
+              @if (votedFor === p.uid) {
+                <i class="fa-solid fa-check vote-check"></i>
+              }
+            </button>
+          }
+        }
+      </div>
+
+      @if (isHost && votedFor) {
+        <button class="ghost-btn" (click)="forceResults()">
+          <i class="fa-solid fa-flag-checkered"></i> REVEAL RESULTS
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ── PHASE: RESULT ── -->
+  @if (phase === 'result') {
+    <div class="phase-wrap">
+      <div class="phase-header">
+        <span class="room-tag">ROOM // {{ roomId }}</span>
+        <span class="phase-label">RESULTS</span>
+      </div>
+
+      <div class="result-section">
+        <div class="result-label">ELIMINATED</div>
+        @if (eliminatedPlayer) {
+          <div class="eliminated-card">
+            <img [src]="eliminatedPlayer.avatar" [alt]="eliminatedPlayer.name" />
+            <div class="elim-name">{{ eliminatedPlayer.name }}</div>
+            @if (eliminatedPlayer.uid === myUid) {
+              <div class="elim-you">THAT'S YOU</div>
+            }
+          </div>
+        } @else {
+          <div class="no-elim">NO CONSENSUS</div>
+        }
+      </div>
+
+      <div class="result-section">
+        <div class="result-label">YOUR ROLE</div>
+        <div class="role-reveal-result" [class.impostor]="isImpostor">
+          <i class="fa-solid" [class.fa-user-secret]="isImpostor" [class.fa-user-astronaut]="!isImpostor"></i>
+          {{ isImpostor ? 'IMPOSTOR' : 'CREW' }}
+          @if (!isImpostor) { <span class="word-tag">{{ word }}</span> }
+        </div>
+      </div>
+
+      <div class="result-section">
+        <div class="result-label">VOTE BREAKDOWN</div>
+        <div class="vote-breakdown">
+          @for (r of voteResults; track r.player.uid) {
+            <div class="breakdown-row">
+              <img [src]="r.player.avatar" [alt]="r.player.name" />
+              <span class="bd-name">{{ r.player.name }}</span>
+              <div class="bd-bar-wrap">
+                <div class="bd-bar" [style.width.%]="players.length ? (r.count / players.length) * 100 : 0"></div>
+              </div>
+              <span class="bd-count">{{ r.count }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="primary-btn" (click)="playAgain()">
+          <i class="fa-solid fa-rotate-right"></i> PLAY AGAIN
+        </button>
+        <button class="ghost-btn" (click)="goHome()">
+          <i class="fa-solid fa-house"></i> HOME
+        </button>
+      </div>
+    </div>
+  }
+
+</div>

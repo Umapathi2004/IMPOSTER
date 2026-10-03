@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ProfileModal } from '../profile-modal/profile-modal';
 import { ProfileConfirm } from '../profile-confirm/profile-confirm';
 import { ProfileService, UserProfile } from '../../services/profile.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home-screen',
@@ -32,18 +33,13 @@ export class HomeScreen implements OnInit {
 
   private async _detectLocalIp() {
     try {
-      const res = await fetch('/api/ip', { signal: AbortSignal.timeout(2000) });
+      const res = await fetch(`${environment.BACKEND_URL}/api/ip`, { signal: AbortSignal.timeout(2000) });
       if (res.ok) {
         const data = await res.json();
-        if (data.ip) {
-          this.localIp.set(data.ip);
-          return;
-        }
+        if (data.ip) { this.localIp.set(data.ip); return; }
       }
-    } catch {
-      // Backend not reached
-    }
-    this.localIp.set(window.location.hostname || 'LOCAL SERVER');
+    } catch {}
+    this.localIp.set(window.location.hostname || 'LOCAL');
   }
 
   toggleFx() {
