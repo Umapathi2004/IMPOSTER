@@ -11,21 +11,23 @@
     <!-- Connection state -->
     <div class="conn-bar" [class.connected]="connectionState === 'CONNECTED'" [class.failed]="connectionState === 'FAILED'">
       <i class="fa-solid"
-        [class.fa-circle-notch]="connectionState === 'CONNECTING' || connectionState === 'SIGNALING'"
-        [class.fa-spin]="connectionState === 'CONNECTING' || connectionState === 'SIGNALING'"
+        [class.fa-circle-notch]="connectionState === 'CONNECTING'"
+        [class.fa-spin]="connectionState === 'CONNECTING'"
         [class.fa-circle-check]="connectionState === 'CONNECTED'"
         [class.fa-circle-xmark]="connectionState === 'FAILED'"
-        [class.fa-tower-broadcast]="connectionState === 'WAITING_FOR_PLAYERS' || connectionState === 'CREATING_ROOM'"
         [class.fa-satellite-dish]="connectionState === 'IDLE'">
       </i>
-      {{ connectionState }}
+      {{ connectionState === 'CONNECTED' ? 'CONNECTED TO SERVER' : connectionState }}
     </div>
 
     <!-- Room info -->
     <div class="room-info-row">
-      <div class="info-cell">
+      <div class="info-cell" (click)="copyRoomId()" style="cursor: pointer;" title="Click to copy room code">
         <span class="info-label">ROOM ID</span>
-        <span class="info-value">{{ roomId }}</span>
+        <span class="info-value">
+          {{ roomId }}
+          <i class="fa-solid" [class.fa-copy]="!copied" [class.fa-check]="copied" style="font-size: 10px; margin-left: 4px; color: var(--primary-color);"></i>
+        </span>
       </div>
       <div class="info-cell">
         <span class="info-label">CATEGORY</span>
@@ -53,96 +55,32 @@
       </div>
     }
 
-    <!-- ── HOST: QR OFFER DISPLAY ── -->
-    @if (isHost && qrChunks.length) {
+    <!-- ── INVITE QR CODE ── -->
+    @if (qrImageUrl) {
       <div class="qr-section">
         <div class="qr-section-label">
-          <i class="fa-solid fa-qrcode"></i> INVITE QR — SHOW TO JOINER
+          <i class="fa-solid fa-qrcode"></i> INVITE CREW — SCAN CODE TO JOIN
         </div>
-
-        @if (qrChunks.length > 1) {
-          <div class="chunk-nav">
-            <button class="chunk-btn" (click)="prevChunk()" [disabled]="currentChunkIdx === 0">
-              <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <span class="chunk-label">SCAN {{ currentChunkIdx + 1 }} / {{ qrChunks.length }}</span>
-            <button class="chunk-btn" (click)="nextChunk()" [disabled]="currentChunkIdx === qrChunks.length - 1">
-              <i class="fa-solid fa-chevron-right"></i>
-            </button>
-          </div>
-        }
 
         <div class="qr-card">
           <div class="qr-top-row">
             <div class="qr-dot"></div>
-            <span class="qr-label">SCAN TO JOIN</span>
-            <span class="qr-room-id">{{ roomId }}</span>
+            <span class="qr-label">ROOM CODE: {{ roomId }}</span>
+            <button class="chunk-btn" style="padding: 2px 8px; font-size: 10px;" (click)="copyRoomId()">
+              {{ copied ? 'COPIED!' : 'COPY' }}
+            </button>
           </div>
           <div class="qr-img-wrap">
-            <img class="qr-img" [src]="qrImageUrl" alt="QR Code" />
+            <img class="qr-img" [src]="qrImageUrl" alt="Room QR Code" />
             <div class="qr-corner tl"></div>
             <div class="qr-corner tr"></div>
             <div class="qr-corner bl"></div>
             <div class="qr-corner br"></div>
           </div>
-          @if (qrChunks.length > 1) {
-            <div class="qr-hint">Show each QR chunk in order for joiner to scan</div>
-          }
+          <div class="qr-hint">Scan with camera or enter code <strong>{{ roomId }}</strong></div>
         </div>
-
-        <!-- Step 2: after joiner scans, host scans joiner's answer QR -->
-        <div class="answer-step">
-          <div class="answer-step-label">
-            <i class="fa-solid fa-arrow-right"></i>
-            AFTER JOINER SCANS — SCAN THEIR ANSWER QR
-          </div>
-          @if (answerStatus) {
-            <div class="answer-status" [class.ok]="answerStatus.includes('✔')">
-              <i class="fa-solid" [class.fa-check]="answerStatus.includes('✔')" [class.fa-circle-notch]="!answerStatus.includes('✔')" [class.fa-spin]="!answerStatus.includes('✔')"></i>
-              {{ answerStatus }}
-            </div>
-          }
-          @if (scanError) {
-            <div class="scan-error"><i class="fa-solid fa-triangle-exclamation"></i> {{ scanError }}</div>
-          }
-          @if (!answerStatus.includes('✔')) {
-            <button class="scan-answer-btn" (click)="openAnswerScanner()">
-              <i class="fa-solid fa-camera"></i> SCAN JOINER'S ANSWER QR
-            </button>
-          }
-        </div>
-
       </div>
     }
-
-  <!-- Answer scanner overlay -->
-  @if (showAnswerScanner) {
-    <div class="scanner-overlay">
-      <div class="scanner-card">
-        <div class="scanner-header">
-          <span class="scanner-title">SCAN JOINER'S ANSWER QR</span>
-          <button class="scanner-close" (click)="closeAnswerScanner()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="scanner-viewport">
-          <video #answerVideo class="scanner-video" autoplay playsinline muted></video>
-          <div class="scan-frame">
-            <div class="sf-corner tl"></div>
-            <div class="sf-corner tr"></div>
-            <div class="sf-corner bl"></div>
-            <div class="sf-corner br"></div>
-          </div>
-          @if (scanActive) { <div class="scan-line"></div> }
-        </div>
-        @if (answerStatus) {
-          <div class="chunk-progress">{{ answerStatus }}</div>
-        }
-        <div class="scanner-hint">
-          <i class="fa-solid fa-circle-notch fa-spin"></i>
-          POINT AT JOINER'S ANSWER QR
-        </div>
-      </div>
-    </div>
-  }
 
     <!-- Player list -->
     <div class="section-label">CREW MANIFEST — {{ allPlayers.length }} / {{ config?.maxPlayers ?? '?' }}</div>
@@ -165,7 +103,7 @@
       }
 
       <!-- Empty slots -->
-      @for (i of [].constructor((config?.maxPlayers ?? 4) - allPlayers.length); track $index) {
+      @for (i of emptySlots; track $index) {
         <div class="player-row empty">
           <div class="empty-avatar"><i class="fa-solid fa-user-plus"></i></div>
           <div class="player-info">
@@ -182,11 +120,15 @@
   <div class="sticky-footer">
     @if (isHost) {
       <button class="start-btn" [disabled]="!canStart" (click)="startGame()">
-        @if (!canStart) {
+        @if (players.length < 2) {
           <i class="fa-solid fa-hourglass-half"></i>
           WAITING FOR PLAYERS... ({{ allPlayers.length }}/{{ config?.maxPlayers }})
+        } @else if (connectionState !== 'CONNECTED') {
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          CONNECTING... ({{ allPlayers.length }} PLAYERS)
         } @else {
-          <i class="fa-solid fa-play"></i> START GAME
+          <i class="fa-solid fa-play"></i>
+          START GAME — {{ allPlayers.length }} PLAYERS
         }
       </button>
     } @else {
@@ -195,7 +137,5 @@
       </div>
     }
   </div>
-
-
 
 </div>

@@ -69,13 +69,15 @@ export class CreateRoom implements OnInit, OnDestroy {
 
   async launch() {
     const roomId = this.isEditing ? this.roomService.config!.roomId : RoomService.generateRoomId();
-    await this.roomService.setConfig({
+    const success = await this.roomService.createRoom({
       roomId,
       maxPlayers: this.playerCount,
       impostorCount: this.impostorCount,
       category: this.selectedCategory,
     });
-    this.router.navigate(['/lobby', roomId]);
+    if (success) {
+      this.router.navigate(['/lobby', roomId]);
+    }
   }
 
   goBack() {

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 --configuration development",
+    "start": "node backend/index.js & ng serve --host 0.0.0.0 --port 4201 --configuration development",
+    "backend": "node backend/index.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -30,9 +31,7 @@
     "express": "^5.2.1",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
-    "selfsigned": "^5.5.0",
     "typescript": "~5.9.2",
-    "vitest": "^4.0.8",
-    "ws": "^8.22.0"
+    "vitest": "^4.0.8"
   }
 }

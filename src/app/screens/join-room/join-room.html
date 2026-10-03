@@ -6,220 +6,154 @@
     <span class="banner-tag">CREW</span>
   </div>
 
-  <!-- Connection state bar -->
-  @if (connectionState && connectionState !== 'IDLE') {
-    <div class="conn-bar"
-         [class.connected]="connectionState === 'CONNECTED'"
-         [class.failed]="connectionState === 'FAILED' || connectionState === 'DISCONNECTED'">
-      @if (connectionState === 'CONNECTED') {
-        <i class="fa-solid fa-check-circle"></i> CONNECTED — ENTERING LOBBY...
-      } @else if (connectionState === 'FAILED') {
-        <i class="fa-solid fa-triangle-exclamation"></i> CONNECTION FAILED — TRY AGAIN
-      } @else if (connectionState === 'DISCONNECTED') {
-        <i class="fa-solid fa-triangle-exclamation"></i> DISCONNECTED
-      } @else {
-        <i class="fa-solid fa-circle-notch fa-spin"></i>
-        @if (connectionState === 'SIGNALING') { PROCESSING OFFER... }
-        @else if (connectionState === 'CONNECTING') { CONNECTING TO HOST... }
-        @else { {{ connectionState }} }
-      }
+  <!-- Join status / error bar -->
+  @if (joining) {
+    <div class="conn-bar">
+      <i class="fa-solid fa-circle-notch fa-spin"></i> JOINING ROOM...
+    </div>
+  } @else if (joinError) {
+    <div class="conn-bar failed">
+      <i class="fa-solid fa-triangle-exclamation"></i> {{ joinError }}
     </div>
   }
 
-  <!-- ── ANSWER QR (after scanning offer) ── -->
-  @if (step === 'show-answer' && answerChunks.length) {
-    <div class="scroll-body">
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <button class="tab-btn" [class.active]="activeTab === 'nearby'" (click)="setTab('nearby')">
+      <i class="fa-solid fa-tower-broadcast"></i> ACTIVE ROOMS ({{ activeRooms.length }})
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'code'" (click)="setTab('code')">
+      <i class="fa-solid fa-keyboard"></i> CODE
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'qr'" (click)="setTab('qr')">
+      <i class="fa-solid fa-qrcode"></i> SCAN QR
+    </button>
+  </div>
+
+  <div class="scroll-body">
+
+    <!-- ── 1. ACTIVE ROOMS TAB (LIVE WEBSOCKET STREAM) ── -->
+    @if (activeTab === 'nearby') {
       <div class="step-section">
-        <div class="step-tag">STEP 2 OF 2</div>
-        <div class="step-title">SHOW THIS TO HOST</div>
-        <div class="step-sub">Let the host scan your answer QR to complete the connection.</div>
-
-        @if (answerChunks.length > 1) {
-          <div class="chunk-nav">
-            <button class="chunk-btn" (click)="prevAnswerChunk()" [disabled]="currentAnswerIdx === 0">
-              <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <span class="chunk-label">SHOW {{ currentAnswerIdx + 1 }} / {{ answerChunks.length }}</span>
-            <button class="chunk-btn" (click)="nextAnswerChunk()" [disabled]="currentAnswerIdx === answerChunks.length - 1">
-              <i class="fa-solid fa-chevron-right"></i>
-            </button>
-          </div>
-        }
-
-        <div class="qr-card">
-          <div class="qr-top-row">
-            <div class="qr-dot"></div>
-            <span class="qr-label">ANSWER QR</span>
-            <span class="qr-room-id">{{ roomConfig?.roomId }}</span>
-          </div>
-          <div class="qr-img-wrap">
-            <img class="qr-img" [src]="answerQrUrl" alt="Answer QR" />
-            <div class="qr-corner tl"></div>
-            <div class="qr-corner tr"></div>
-            <div class="qr-corner bl"></div>
-            <div class="qr-corner br"></div>
-          </div>
-          <div class="qr-hint">Host scans this to complete the connection</div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div class="step-tag">LIVE LOBBIES</div>
+          <span style="font-size: 10px; color: #4ADE80; font-family: var(--lable-font); letter-spacing: 1px;">
+            <i class="fa-solid fa-circle" style="font-size: 7px;"></i> LIVE
+          </span>
         </div>
+        <div class="step-title">ACTIVE ROOMS</div>
+        <div class="step-sub">Select an open lobby to join instantly, or use code/QR.</div>
 
-        <div class="waiting-msg">
-          <i class="fa-solid fa-satellite-dish"></i>
-          WAITING FOR HOST TO SCAN...
-        </div>
-      </div>
-    </div>
-  }
-
-  <!-- ── MAIN JOIN UI ── -->
-  @if (step === 'idle') {
-
-    <!-- Tab bar -->
-    <div class="tab-bar">
-      <button class="tab-btn" [class.active]="activeTab === 'qr'" (click)="setTab('qr')">
-        <i class="fa-solid fa-qrcode"></i> SCAN QR
-      </button>
-      <button class="tab-btn" [class.active]="activeTab === 'nearby'" (click)="setTab('nearby')">
-        <i class="fa-solid fa-wifi"></i> NEARBY
-      </button>
-      <button class="tab-btn" [class.active]="activeTab === 'code'" (click)="setTab('code')">
-        <i class="fa-solid fa-keyboard"></i> CODE
-      </button>
-    </div>
-
-    <div class="scroll-body">
-
-      <!-- ── QR TAB ── -->
-      @if (activeTab === 'qr') {
-        <div class="step-section">
-          <div class="step-tag">QR JOIN</div>
-          <div class="step-title">SCAN HOST QR</div>
-          <div class="step-sub">Ask the host to show their QR code on the lobby screen, then scan it here.</div>
-
-          @if (processing) {
-            <div class="processing-bar">
-              <i class="fa-solid fa-circle-notch fa-spin"></i>
-              PROCESSING OFFER — GENERATING ANSWER...
+        @if (activeRooms.length === 0) {
+          <div class="empty-state">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <span>NO ACTIVE ROOMS RIGHT NOW</span>
+            <div style="font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 6px;">
+              Create a room from the home screen or ask a friend for their Room Code.
             </div>
-          } @else {
-            <button class="primary-btn" (click)="openScanner()">
-              <i class="fa-solid fa-camera"></i> OPEN CAMERA & SCAN
-            </button>
-          }
-
-          @if (scanProgress) {
-            <div class="progress-bar">
-              <i class="fa-solid fa-circle-notch fa-spin"></i> {{ scanProgress }}
-            </div>
-          }
-          @if (scanError) {
-            <div class="error-bar"><i class="fa-solid fa-triangle-exclamation"></i> {{ scanError }}</div>
-          }
-        </div>
-      }
-
-      <!-- ── NEARBY TAB ── -->
-      @if (activeTab === 'nearby') {
-        <div class="step-section">
-          <div class="step-tag">NEARBY GAMES</div>
-          <div class="step-title">LOCAL ROOMS</div>
-
-          @if (!lanSupported) {
-            <div class="fallback-notice">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-              <div>
-                <div class="fallback-title">NOT SUPPORTED IN THIS BROWSER</div>
-                <div class="fallback-sub">Nearby discovery requires BroadcastChannel API. Use QR scan or room code instead.</div>
-              </div>
-            </div>
-            <button class="primary-btn" (click)="setTab('qr')">
-              <i class="fa-solid fa-qrcode"></i> SCAN QR INSTEAD
-            </button>
-          } @else {
-            <div class="step-sub">Rooms hosted on this device/browser appear here. For cross-device, use QR scan.</div>
-
-            @if (nearbyRooms.length === 0) {
-              <div class="empty-state">
-                <i class="fa-solid fa-satellite-dish"></i>
-                <span>SCANNING FOR ROOMS...</span>
-              </div>
-            } @else {
-              <div class="room-list">
-                @for (room of nearbyRooms; track room.roomId) {
-                  <div class="room-card">
-                    <img [src]="room.hostAvatar" [alt]="room.hostName" class="room-avatar" />
-                    <div class="room-info">
-                      <div class="room-name">{{ room.roomName }}</div>
-                      <div class="room-meta">
-                        <span class="room-id">{{ room.roomId }}</span>
-                        <span class="room-sep">·</span>
-                        <span class="room-cat">{{ room.category }}</span>
-                      </div>
-                      <div class="room-players">
-                        <div class="player-pips">
-                          @for (i of [].constructor(room.maxPlayers); track $index) {
-                            <div class="pip" [class.active]="$index < room.playerCount"></div>
-                          }
-                        </div>
-                        <span class="pip-label">{{ room.playerCount }} / {{ room.maxPlayers }}</span>
-                      </div>
-                    </div>
-                    <button class="join-btn" (click)="joinNearby(room)">
-                      JOIN <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+          </div>
+        } @else {
+          <div class="room-list">
+            @for (room of activeRooms; track room.roomId) {
+              <div class="room-card">
+                <img [src]="room.hostAvatar" [alt]="room.hostName" class="room-avatar" />
+                <div class="room-info">
+                  <div class="room-name">{{ room.roomName }}</div>
+                  <div class="room-meta">
+                    <span class="room-id">{{ room.roomId }}</span>
+                    <span class="room-sep">·</span>
+                    <span class="room-cat">{{ room.category }}</span>
                   </div>
-                }
+                  <div class="room-players">
+                    <span class="pip-label">{{ room.playerCount }} / {{ room.maxPlayers }} PLAYERS</span>
+                  </div>
+                </div>
+                <button
+                  class="join-btn"
+                  [disabled]="room.playerCount >= room.maxPlayers || room.status === 'in-game' || joining"
+                  (click)="requestJoin(room.roomId)">
+                  @if (joining) {
+                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                  } @else {
+                    {{ room.playerCount >= room.maxPlayers ? 'FULL' : 'JOIN' }} <i class="fa-solid fa-arrow-right"></i>
+                  }
+                </button>
               </div>
             }
+          </div>
+        }
+      </div>
+    }
 
-            <div class="lan-notice">
-              <i class="fa-solid fa-circle-info"></i>
-              Cross-device discovery requires QR scan — BroadcastChannel is same-browser only.
-            </div>
-          }
-        </div>
-      }
+    <!-- ── 2. CODE TAB ── -->
+    @if (activeTab === 'code') {
+      <div class="step-section">
+        <div class="step-tag">ROOM CODE</div>
+        <div class="step-title">ENTER CODE</div>
+        <div class="step-sub">Type the 5-character room code displayed on the host's lobby screen.</div>
 
-      <!-- ── CODE TAB ── -->
-      @if (activeTab === 'code') {
-        <div class="step-section">
-          <div class="step-tag">ROOM CODE</div>
-          <div class="step-title">ENTER CODE</div>
-          <div class="step-sub">Type the room code shown on the host's lobby screen.</div>
-
-          <div class="code-input-row">
-            <input
-              class="code-input"
-              [(ngModel)]="roomCodeInput"
-              placeholder="X7K92"
-              maxlength="6"
-              (input)="roomCodeInput = roomCodeInput.toUpperCase(); codeError = ''"
-              (keyup.enter)="joinByCode()"
-            />
-            <button class="join-code-btn" (click)="joinByCode()">
+        <div class="code-input-row">
+          <input
+            class="code-input"
+            [(ngModel)]="roomCodeInput"
+            placeholder="X7K92"
+            maxlength="6"
+            (input)="roomCodeInput = roomCodeInput.toUpperCase(); codeError = ''; joinError = ''"
+            (keyup.enter)="joinByCode()"
+            [disabled]="joining"
+          />
+          <button class="join-code-btn" [disabled]="joining" (click)="joinByCode()">
+            @if (joining) {
+              <i class="fa-solid fa-circle-notch fa-spin"></i>
+            } @else {
               JOIN <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-
-          @if (codeError) {
-            <div class="error-bar"><i class="fa-solid fa-triangle-exclamation"></i> {{ codeError }}</div>
-          }
-
-          <div class="lan-notice">
-            <i class="fa-solid fa-circle-info"></i>
-            Room code works when the room is discovered nearby. Otherwise use QR scan.
-          </div>
+            }
+          </button>
         </div>
-      }
 
-    </div>
-  }
+        @if (codeError) {
+          <div class="error-bar"><i class="fa-solid fa-triangle-exclamation"></i> {{ codeError }}</div>
+        }
+
+        <div class="lan-notice">
+          <i class="fa-solid fa-circle-info"></i>
+          Rooms are synced directly through WebSocket. Codes are case-insensitive.
+        </div>
+      </div>
+    }
+
+    <!-- ── 3. QR TAB ── -->
+    @if (activeTab === 'qr') {
+      <div class="step-section">
+        <div class="step-tag">QR JOIN</div>
+        <div class="step-title">SCAN HOST QR</div>
+        <div class="step-sub">Point your camera at the room QR code on the host's screen to connect in 1 second.</div>
+
+        @if (joining) {
+          <div class="processing-bar">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+            CONNECTING TO ROOM...
+          </div>
+        } @else {
+          <button class="primary-btn" (click)="openScanner()">
+            <i class="fa-solid fa-camera"></i> OPEN CAMERA & SCAN
+          </button>
+        }
+
+        @if (scanError) {
+          <div class="error-bar"><i class="fa-solid fa-triangle-exclamation"></i> {{ scanError }}</div>
+        }
+      </div>
+    }
+
+  </div>
 
   <!-- ── QR Scanner overlay ── -->
   @if (showScanner) {
     <div class="scanner-overlay">
       <div class="scanner-card">
         <div class="scanner-header">
-          <span class="scanner-title">SCAN HOST QR CODE</span>
+          <span class="scanner-title">SCAN ROOM QR CODE</span>
           <button class="scanner-close" (click)="closeScanner()"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="scanner-viewport">
@@ -232,23 +166,17 @@
           </div>
           @if (scanActive) { <div class="scan-line"></div> }
         </div>
-        @if (scanProgress) {
-          <div class="chunk-progress">{{ scanProgress }}</div>
-        }
         <div class="scanner-hint">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          POINT AT HOST'S QR CODE
+          POINT AT HOST'S ROOM QR CODE
         </div>
       </div>
     </div>
   }
 
-  <!-- Profile sheets -->
+  <!-- Profile sheet (only shown for first-time players) -->
   @if (showProfileModal) {
     <app-profile-modal (done)="onProfileDone($event)" (close)="goBack()" />
-  }
-  @if (showProfileConfirm) {
-    <app-profile-confirm (continue)="onConfirmContinue()" (edit)="onConfirmEdit()" />
   }
 
 </div>

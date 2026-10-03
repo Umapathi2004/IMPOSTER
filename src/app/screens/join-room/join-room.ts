@@ -3,22 +3,18 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProfileModal } from '../profile-modal/profile-modal';
-import { ProfileConfirm } from '../profile-confirm/profile-confirm';
 import { ProfileService, UserProfile } from '../../services/profile.service';
-import { RoomService } from '../../services/room.service';
-import { WebRTCService, QrChunk, SignalPayload } from '../../services/webrtc.service';
-import { LanDiscoveryService, DiscoveredRoom } from '../../services/lan-discovery.service';
+import { RoomService, ActiveRoom } from '../../services/room.service';
 import { QrScannerService } from '../../services/qr-scanner.service';
 
-type Tab      = 'qr' | 'nearby' | 'code';
-type JoinStep = 'idle' | 'show-answer' | 'waiting';
+type Tab = 'nearby' | 'code' | 'qr';
 
 const log = (tag: string, ...args: any[]) =>
   console.log(`%c[${tag}]`, 'color:#E88A52;font-weight:bold', ...args);
 
 @Component({
   selector: 'app-join-room',
-  imports: [ProfileModal, ProfileConfirm, FormsModule],
+  imports: [ProfileModal, FormsModule],
   templateUrl: './join-room.html',
   styleUrl: './join-room.css',
 })
@@ -29,143 +25,130 @@ export class JoinRoom implements OnInit, OnDestroy {
   showProfileModal   = false;
   showProfileConfirm = false;
 
-  activeTab: Tab = 'qr';
-  step: JoinStep = 'idle';
+  activeTab: Tab = 'nearby';
 
-  // ── QR scan ───────────────────────────────────────────────────────────────
-  showScanner   = false;
-  scanError     = '';
-  scanActive    = false;
-  scannedChunks: QrChunk[] = [];
-  scanProgress  = '';
-  processing    = false;  // true while createAnswer is running
+  // ── Active Rooms (Live synced via WebSocket — NO POLLING) ──────────────────
+  activeRooms: ActiveRoom[] = [];
+  joining = false;
+  joinError = '';
 
-  // ── Answer display ────────────────────────────────────────────────────────
-  answerChunks: QrChunk[] = [];
-  currentAnswerIdx = 0;
-  answerQrUrls: string[] = [];
-
-  get answerQrUrl(): string { return this.answerQrUrls[this.currentAnswerIdx] ?? ''; }
-
-  // ── Nearby ────────────────────────────────────────────────────────────────
-  nearbyRooms: DiscoveredRoom[] = [];
-  readonly lanSupported: boolean;
-
-  // ── Room code ─────────────────────────────────────────────────────────────
+  // ── Room Code ─────────────────────────────────────────────────────────────
   roomCodeInput = '';
   codeError     = '';
 
-  // ── Connection ────────────────────────────────────────────────────────────
-  connectionState = '';
-
-  private subs        = new Subscription();
+  // ── QR Scanner ────────────────────────────────────────────────────────────
+  showScanner   = false;
+  scanError     = '';
+  scanActive    = false;
   private stream: MediaStream | null = null;
   private scanInterval: any = null;
-  private _pendingOffer: SignalPayload | null = null;
+
+  private subs = new Subscription();
+  private pendingTargetRoomId: string | null = null;
 
   constructor(
     private router: Router,
     private profileService: ProfileService,
-    private roomService: RoomService,
-    private webrtc: WebRTCService,
-    private lanDiscovery: LanDiscoveryService,
+    public roomService: RoomService,
     private qrScanner: QrScannerService,
-  ) {
-    this.lanSupported = this.lanDiscovery.supported;
-  }
+  ) {}
 
   ngOnInit() {
     this.profile = this.profileService.get();
 
-    this.subs.add(this.webrtc.connectionState$.subscribe(s => {
-      this.connectionState = s;
-      log('JOIN', 'connection state ->', s);
-      if (s === 'CONNECTED') {
-        const roomId = this.roomService.config?.roomId ?? this._pendingOffer?.r ?? '';
-        log('ROOM', 'Connected — navigating to lobby', roomId);
-        this.router.navigate(['/lobby', roomId]);
-      }
+    // Ensure WebSocket is active to receive live ACTIVE_ROOMS events
+    this.roomService.ensureWebSocketConnected();
+
+    // Subscribe to live active rooms pushed by WebSocket
+    this.subs.add(this.roomService.activeRooms$.subscribe(rooms => {
+      this.activeRooms = rooms.filter(r => r.status !== 'closed');
     }));
 
-    this.subs.add(this.webrtc.answerChunks$.subscribe(chunks => {
-      this.answerChunks = chunks;
-      this.currentAnswerIdx = 0;
-    }));
-
-    this.subs.add(this.webrtc.answerQrUrls$.subscribe(urls => {
-      this.answerQrUrls = urls;
-    }));
-
-    this.subs.add(this.webrtc.currentChunkIdx$.subscribe(idx => {
-      this.currentAnswerIdx = idx;
-    }));
-
-    // Start nearby discovery
-    this.lanDiscovery.startDiscovery();
-    this.subs.add(this.lanDiscovery.rooms$.subscribe(rooms => {
-      this.nearbyRooms = rooms.filter(r => r.playerCount < r.maxPlayers);
-    }));
+    // Initial fetch once just to populate immediately if WS is still handshaking
+    this.roomService.fetchActiveRooms();
   }
-
-  // ── Tab ───────────────────────────────────────────────────────────────────
 
   setTab(tab: Tab) {
     this.activeTab = tab;
     this.scanError = '';
     this.codeError = '';
+    this.joinError = '';
   }
 
-  // ── Profile gate ──────────────────────────────────────────────────────────
+  // ── Join Handler ──────────────────────────────────────────────────────────
 
-  private _afterProfile(offer: SignalPayload) {
-    this._pendingOffer = offer;
+  requestJoin(roomId: string) {
+    const cleanId = roomId.trim().toUpperCase();
+    if (!cleanId) return;
+
+    this.profile = this.profileService.get();
+
     if (!this.profile) {
+      // First time player without a nickname
+      this.pendingTargetRoomId = cleanId;
       this.showProfileModal = true;
-    } else {
-      this.showProfileConfirm = true;
+      return;
     }
+
+    // Player already has a profile — join immediately without blocking confirmation
+    this._executeJoin(cleanId);
   }
 
   onProfileDone(p: UserProfile) {
     this.profile = p;
     this.showProfileModal = false;
-    this._processOffer();
-  }
-
-  onConfirmContinue() {
-    this.showProfileConfirm = false;
-    this._processOffer();
-  }
-
-  onConfirmEdit() {
-    this.showProfileConfirm = false;
-    this.showProfileModal = true;
-  }
-
-  private async _processOffer() {
-    if (!this._pendingOffer) return;
-    this.processing = true;
-    log('ROOM', 'Processing offer for room', this._pendingOffer.r);
-    try {
-      await this.roomService.processOffer(this._pendingOffer);
-      this.step = 'show-answer';
-    } catch (e) {
-      this.scanError = 'FAILED TO PROCESS OFFER — TRY AGAIN';
-      log('SIGNAL', 'processOffer error', e);
-    } finally {
-      this.processing = false;
+    if (this.pendingTargetRoomId) {
+      this._executeJoin(this.pendingTargetRoomId);
+      this.pendingTargetRoomId = null;
     }
   }
 
-  // ── QR scanner ────────────────────────────────────────────────────────────
+  private async _executeJoin(roomId: string) {
+    this.joining = true;
+    this.joinError = '';
+    this.codeError = '';
+    this.scanError = '';
+
+    try {
+      const ok = await this.roomService.joinRoom(roomId);
+      if (ok) {
+        log('JOIN', 'Successfully joined room', roomId);
+        this.router.navigate(['/lobby', roomId]);
+      } else {
+        const err = this.roomService.error$.value || 'Could not join room';
+        this.joinError = err.toUpperCase();
+        this.codeError = err.toUpperCase();
+        this.scanError = err.toUpperCase();
+      }
+    } catch (e: any) {
+      const msg = 'FAILED TO JOIN ROOM — CHECK CODE OR HOST STATUS';
+      this.joinError = msg;
+      this.codeError = msg;
+    } finally {
+      this.joining = false;
+    }
+  }
+
+  // ── Join by Code ──────────────────────────────────────────────────────────
+
+  joinByCode() {
+    const code = this.roomCodeInput.trim().toUpperCase();
+    if (code.length < 3) {
+      this.codeError = 'ENTER A VALID ROOM CODE';
+      return;
+    }
+    this.requestJoin(code);
+  }
+
+  // ── QR Scanner ────────────────────────────────────────────────────────────
 
   async openScanner() {
     this.scanError = '';
-    this.scannedChunks = [];
-    this.scanProgress = '';
     this.showScanner = true;
     try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }
+      });
       setTimeout(() => this._startDetection(), 100);
     } catch {
       this.scanError = 'CAMERA ACCESS DENIED';
@@ -181,81 +164,50 @@ export class JoinRoom implements OnInit, OnDestroy {
 
     this.scanInterval = setInterval(async () => {
       const raw = await this.qrScanner.scan(video);
-      if (raw) this._handleOfferChunk(raw);
+      if (raw) {
+        log('QR', 'Scanned raw text:', raw);
+        this._handleScannedCode(raw);
+      }
     }, 300);
   }
 
-  private _handleOfferChunk(raw: string) {
-    const chunk = this.webrtc.parseChunk(raw);
-    if (!chunk) { this.scanError = 'INVALID QR — NOT AN IMPOSTER CODE'; return; }
-
-    if (!this.scannedChunks.find(c => c.i === chunk.i)) {
-      this.scannedChunks.push(chunk);
+  private _handleScannedCode(raw: string) {
+    let roomId = raw.trim();
+    if (roomId.includes('/lobby/')) {
+      roomId = roomId.split('/lobby/')[1]?.split('?')[0]?.split('/')[0] || roomId;
     }
-    this.scanProgress = `SCANNED ${this.scannedChunks.length} / ${chunk.n}`;
+    roomId = roomId.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
 
-    if (this.scannedChunks.length === chunk.n) {
+    if (roomId.length >= 3 && roomId.length <= 8) {
       this._stopScanner();
       this.showScanner = false;
-      const payload = this.webrtc.decodeChunks(this.scannedChunks);
-      if (payload && payload.t === 'offer') {
-        log('SIGNAL', 'Offer decoded from QR');
-        this._afterProfile(payload);
-      } else {
-        this.scanError = 'INVALID OFFER QR — SCAN HOST QR AGAIN';
-      }
+      this.requestJoin(roomId);
+    } else {
+      this.scanError = 'INVALID QR CODE — POINT TO ROOM QR';
     }
   }
 
-  closeScanner() { this._stopScanner(); this.showScanner = false; }
+  closeScanner() {
+    this._stopScanner();
+    this.showScanner = false;
+  }
 
   private _stopScanner() {
-    clearInterval(this.scanInterval);
-    this.scanInterval = null;
+    if (this.scanInterval) {
+      clearInterval(this.scanInterval);
+      this.scanInterval = null;
+    }
     this.scanActive = false;
     this.stream?.getTracks().forEach(t => t.stop());
     this.stream = null;
   }
 
-  // ── Nearby join ───────────────────────────────────────────────────────────
-
-  joinNearby(room: DiscoveredRoom) {
-    // BroadcastChannel discovery is same-browser only.
-    // The offer QR is still required to complete WebRTC signaling.
-    // Switch to QR tab and prompt user to scan the host's QR.
-    log('DISCOVERY', 'Tapped nearby room', room.roomId, '— switching to QR scan');
-    this.activeTab = 'qr';
-    this.scanError = `ROOM ${room.roomId} FOUND — SCAN HOST'S QR TO CONNECT`;
+  goBack() {
+    this.router.navigate(['/']);
   }
-
-  // ── Room code join ────────────────────────────────────────────────────────
-
-  joinByCode() {
-    const code = this.roomCodeInput.trim().toUpperCase();
-    if (code.length < 4) { this.codeError = 'ENTER A VALID ROOM CODE'; return; }
-
-    // Check if we discovered this room via BroadcastChannel
-    const found = this.nearbyRooms.find(r => r.roomId === code);
-    if (found) {
-      this.joinNearby(found);
-      return;
-    }
-
-    // No server — can't locate host by code alone across devices
-    this.codeError = 'ROOM NOT FOUND NEARBY — ASK HOST TO SHOW QR';
-    log('ROOM', 'Code entered but room not in discovery list', code);
-  }
-
-  nextAnswerChunk() { this.webrtc.nextChunk(); }
-  prevAnswerChunk() { this.webrtc.prevChunk(); }
-
-  get roomConfig() { return this.roomService.config; }
-
-  goBack() { this.router.navigate(['/']); }
 
   ngOnDestroy() {
     this._stopScanner();
-    this.lanDiscovery.stopDiscovery();
     this.subs.unsubscribe();
   }
 }

@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import QRCode from 'qrcode';
 import { RoomService, PlayerInfo } from '../../services/room.service';
-import { WebRTCService, QrChunk, SignalPayload } from '../../services/webrtc.service';
 import { ProfileService, UserProfile } from '../../services/profile.service';
-import { QrScannerService } from '../../services/qr-scanner.service';
 
 @Component({
   selector: 'app-lobby',
@@ -13,160 +12,116 @@ import { QrScannerService } from '../../services/qr-scanner.service';
   styleUrl: './lobby.css',
 })
 export class Lobby implements OnInit, OnDestroy {
-  @ViewChild('answerVideo') answerVideo!: ElementRef<HTMLVideoElement>;
-
   roomId = '';
   profile!: UserProfile;
   players: PlayerInfo[] = [];
 
-  // QR display (offer chunks)
-  qrChunks: QrChunk[] = [];
-  currentChunkIdx = 0;
-  qrImageUrls: string[] = [];
+  // Invite QR code (Single scan of Room ID)
+  qrImageUrl = '';
+  copied = false;
 
-  get qrImageUrl(): string { return this.qrImageUrls[this.currentChunkIdx] ?? ''; }
+  connectionState = 'CONNECTING';
+  gameStarted = false;
 
-  // Answer scanner
-  showAnswerScanner = false;
-  scanActive        = false;
-  scanError         = '';
-  answerStatus      = '';
-  scannedChunks: QrChunk[] = [];
-
-  connectionState = '';
+  get emptySlots(): number[] {
+    const max = this.config?.maxPlayers ?? 4;
+    return Array(Math.max(0, max - this.players.length)).fill(0);
+  }
 
   private subs = new Subscription();
-  private stream: MediaStream | null = null;
-  private scanInterval: any = null;
 
   get config() { return this.roomService.config; }
   get isHost()  { return this.roomService.isHost; }
-
   get allPlayers(): PlayerInfo[] { return this.players; }
 
   get canStart() {
     return this.isHost
-      && this.config != null
-      && this.players.length >= this.config.maxPlayers;
-  }
-
-  get currentChunk(): QrChunk | null {
-    return this.qrChunks[this.currentChunkIdx] ?? null;
+      && this.players.length >= 2
+      && this.connectionState === 'CONNECTED';
   }
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private roomService: RoomService,
-    private webrtc: WebRTCService,
     private profileService: ProfileService,
-    private qrScanner: QrScannerService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.profile = this.profileService.get()!;
-    this.roomId  = this.route.snapshot.paramMap.get('id') ?? '';
+    this.roomId  = (this.route.snapshot.paramMap.get('id') ?? '').toUpperCase();
 
-    this.subs.add(this.roomService.players$.subscribe(p => this.players = p));
-    this.subs.add(this.webrtc.connectionState$.subscribe(s => this.connectionState = s));
-
-    this.subs.add(this.webrtc.offerChunks$.subscribe(chunks => {
-      this.qrChunks = chunks;
-      this.currentChunkIdx = 0;
-    }));
-
-    this.subs.add(this.webrtc.offerQrUrls$.subscribe(urls => {
-      this.qrImageUrls = urls;
-    }));
-
-    this.subs.add(this.webrtc.currentChunkIdx$.subscribe(idx => {
-      this.currentChunkIdx = idx;
-    }));
-  }
-
-  // ── QR rendering ─────────────────────────────────────────────────────────
-
-  nextChunk()  { this.webrtc.nextChunk(); }
-  prevChunk()  { this.webrtc.prevChunk(); }
-
-  // ── Answer scanner (host scans joiner's answer QR) ───────────────────────
-
-  async openAnswerScanner() {
-    this.scanError = '';
-    this.scannedChunks = [];
-    this.answerStatus = '';
-    this.showAnswerScanner = true;
-    try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      setTimeout(() => this._startAnswerDetection(), 100);
-    } catch {
-      this.scanError = 'CAMERA ACCESS DENIED';
-    }
-  }
-
-  private _startAnswerDetection() {
-    const video = this.answerVideo?.nativeElement;
-    if (!video || !this.stream) return;
-    video.srcObject = this.stream;
-    video.play();
-    this.scanActive = true;
-
-    this.scanInterval = setInterval(async () => {
-      const raw = await this.qrScanner.scan(video);
-      if (raw) this._handleAnswerChunk(raw);
-    }, 300);
-  }
-
-  private _handleAnswerChunk(raw: string) {
-    const chunk = this.webrtc.parseChunk(raw);
-    if (!chunk) { this.scanError = 'INVALID QR'; return; }
-    if (!this.scannedChunks.find(c => c.i === chunk.i)) this.scannedChunks.push(chunk);
-    this.answerStatus = `SCANNED ${this.scannedChunks.length} / ${chunk.n}`;
-    if (this.scannedChunks.length === chunk.n) {
-      this._stopAnswerScanner();
-      this.showAnswerScanner = false;
-      const payload = this.webrtc.decodeChunks(this.scannedChunks);
-      if (payload && payload.t === 'answer') {
-        this.roomService.receiveAnswer(payload);
-        this.answerStatus = 'ANSWER RECEIVED ✔';
-      } else {
-        this.scanError = 'INVALID ANSWER QR — ASK JOINER TO SHOW AGAIN';
+    // If player navigated directly or refreshed, ensure connected to room
+    if (!this.roomService.config || this.roomService.config.roomId !== this.roomId) {
+      if (this.profile) {
+        await this.roomService.joinRoom(this.roomId);
       }
     }
+
+    // Generate clean QR code of the room ID
+    try {
+      this.qrImageUrl = await QRCode.toDataURL(this.roomId, {
+        margin: 1,
+        width: 250,
+        color: { dark: '#000000', light: '#ffffff' },
+      });
+    } catch (e) {
+      console.error('Failed to generate invite QR:', e);
+    }
+
+    // Subscriptions
+    this.subs.add(this.roomService.players$.subscribe(p => {
+      this.players = p;
+    }));
+
+    this.subs.add(this.roomService.connectionState$.subscribe(s => {
+      this.connectionState = s;
+    }));
+
+    this.subs.add(this.roomService.gameStart$.subscribe(() => {
+      this.gameStarted = true;
+      // When ready: this.router.navigate(['/game', this.roomId]);
+    }));
+
+    this.subs.add(this.roomService.roomClosed$.subscribe(reason => {
+      alert(`The room was closed (${reason})`);
+      this.router.navigate(['/']);
+    }));
   }
 
-  closeAnswerScanner() { this._stopAnswerScanner(); this.showAnswerScanner = false; }
-
-  private _stopAnswerScanner() {
-    clearInterval(this.scanInterval);
-    this.scanInterval = null;
-    this.scanActive = false;
-    this.stream?.getTracks().forEach(t => t.stop());
-    this.stream = null;
+  copyRoomId() {
+    navigator.clipboard?.writeText(this.roomId);
+    this.copied = true;
+    setTimeout(() => this.copied = false, 2000);
   }
 
   // ── Actions ───────────────────────────────────────────────────────────────
 
-  editRoom()    { this.router.navigate(['/create-room']); }
-
-  destroyRoom() {
-    this.roomService.disconnect();
-    this.router.navigate(['/']);
+  editRoom() {
+    this.router.navigate(['/create-room']);
   }
 
-  startGame() {
+  async destroyRoom() {
+    if (confirm('Are you sure you want to destroy this room?')) {
+      await this.roomService.destroyRoom();
+      this.router.navigate(['/']);
+    }
+  }
+
+  async startGame() {
     if (!this.canStart) return;
-    this.roomService.broadcast('GAME_START', { config: this.config });
-    this.router.navigate(['/game', this.roomId]);
+    const ok = await this.roomService.startGame();
+    if (!ok) {
+      alert(this.roomService.error$.value || 'Could not start game');
+    }
   }
 
-  goBack() {
-    this.roomService.disconnect();
+  async goBack() {
+    await this.roomService.leaveRoom();
     this.router.navigate(['/']);
   }
 
   ngOnDestroy() {
-    this._stopAnswerScanner();
     this.subs.unsubscribe();
   }
 }

@@ -1,11 +1,12 @@
 {
   "/api": {
-    "target": "http://localhost:3000",
-    "secure": false
+    "target": "http://127.0.0.1:3000",
+    "secure": false,
+    "changeOrigin": true
   },
   "/ws": {
-    "target": "ws://localhost:3000",
-    "ws": true,
-    "secure": false
+    "target": "ws://127.0.0.1:3000",
+    "secure": false,
+    "ws": true
   }
 }

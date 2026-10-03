@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileModal } from '../profile-modal/profile-modal';
 import { ProfileConfirm } from '../profile-confirm/profile-confirm';
@@ -18,7 +18,7 @@ export class HomeScreen implements OnInit {
   showProfileConfirm = false;
   pendingAction: 'create' | 'join' = 'create';
   profile: UserProfile | null = null;
-  localIp = '...';
+  localIp = signal('...');
 
   constructor(
     private profileService: ProfileService,
@@ -30,11 +30,20 @@ export class HomeScreen implements OnInit {
 
   ngOnInit() { this._detectLocalIp(); }
 
-  private _detectLocalIp() {
-    fetch('/api/ip')
-      .then(r => r.json())
-      .then(d => this.localIp = d.ip ?? 'N/A')
-      .catch(() => this.localIp = 'N/A');
+  private async _detectLocalIp() {
+    try {
+      const res = await fetch('/api/ip', { signal: AbortSignal.timeout(2000) });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ip) {
+          this.localIp.set(data.ip);
+          return;
+        }
+      }
+    } catch {
+      // Backend not reached
+    }
+    this.localIp.set(window.location.hostname || 'LOCAL SERVER');
   }
 
   toggleFx() {
