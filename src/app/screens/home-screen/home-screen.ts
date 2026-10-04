@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ProfileModal } from '../profile-modal/profile-modal';
 import { ProfileConfirm } from '../profile-confirm/profile-confirm';
 import { ProfileService, UserProfile } from '../../services/profile.service';
-import { environment } from '../../../environments/environment';
+import { RoomService } from '../../services/room.service';
 
 @Component({
   selector: 'app-home-screen',
@@ -23,6 +23,7 @@ export class HomeScreen implements OnInit {
 
   constructor(
     private profileService: ProfileService,
+    private roomService: RoomService,
     private router: Router,
   ) {
     this.audio.loop = true;
@@ -33,13 +34,14 @@ export class HomeScreen implements OnInit {
 
   private async _detectLocalIp() {
     try {
-      const res = await fetch(`${environment.BACKEND_URL}/api/ip`, { signal: AbortSignal.timeout(2000) });
+      const url = this.roomService.getApiUrl('/api/ip');
+      const res = await fetch(url, { signal: AbortSignal.timeout(3000) });
       if (res.ok) {
         const data = await res.json();
         if (data.ip) { this.localIp.set(data.ip); return; }
       }
     } catch {}
-    this.localIp.set(window.location.hostname || 'LOCAL');
+    this.localIp.set(window.location.hostname || 'ONLINE');
   }
 
   toggleFx() {

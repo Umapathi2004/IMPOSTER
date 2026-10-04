@@ -100,18 +100,44 @@ export class RoomService implements OnDestroy {
 
   // ── Helper: URLs ──────────────────────────────────────────────────────────
 
-  private getApiUrl(path: string): string {
-    return `${environment.BACKEND_URL}${path}`;
+  getBaseUrl(): string {
+    let configured = (environment.BACKEND_URL || '').trim().replace(/\/+$/, '');
+
+    // In browser: prevent production static site (e.g. imposter-dm9.pages.dev) from calling itself or localhost
+    if (typeof window !== 'undefined' && window.location) {
+      const hostname = window.location.hostname;
+      const isLocalHost = (
+        hostname === 'localhost' ||
+        hostname === '127.0.0.1' ||
+        hostname === '0.0.0.0' ||
+        hostname.startsWith('192.168.') ||
+        hostname.startsWith('10.') ||
+        hostname.endsWith('.local')
+      );
+
+      // If loaded on a remote domain (like Cloudflare Pages), force Render backend URL if not explicitly set to a remote server
+      if (!isLocalHost) {
+        if (!configured || configured.includes('localhost') || configured.includes('127.0.0.1') || configured.includes(hostname)) {
+          return 'https://imposter-rgnc.onrender.com';
+        }
+      }
+    }
+
+    return configured || 'http://localhost:3000';
   }
 
-  private getWsUrl(): string {
-    const base = environment.BACKEND_URL;
-    if (base) {
-      return base.replace(/^http/, 'ws') + '/ws';
-    }
-    // Relative — same host, derive ws protocol from page protocol
-    const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    return `${proto}//${window.location.host}/ws`;
+  getApiUrl(path: string): string {
+    const base = this.getBaseUrl();
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${base}${cleanPath}`;
+  }
+
+  getWsUrl(): string {
+    const base = this.getBaseUrl();
+    const wsBase = base
+      .replace(/^https:\/\//i, 'wss://')
+      .replace(/^http:\/\//i, 'ws://');
+    return `${wsBase}/ws`;
   }
 
   // ── Persistent Single WebSocket Connection ────────────────────────────────
