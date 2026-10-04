@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 4201 --configuration development",
     "build": "ng build",
+    "build:clean": "ng cache clean && ng build",
+    "clean": "ng cache clean",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

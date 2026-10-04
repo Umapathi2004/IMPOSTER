@@ -1,0 +1,16 @@
+# Ensure index.html is never aggressively cached so new builds load immediately
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+# Static hashed JS and CSS assets can be cached immutably
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Root fallback
+/*
+  Cache-Control: public, max-age=0, must-revalidate

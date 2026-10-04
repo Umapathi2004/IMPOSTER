@@ -61,16 +61,16 @@ const log = (tag: string, ...args: any[]) =>
 @Injectable({ providedIn: 'root' })
 export class RoomService implements OnDestroy {
 
-  state$            = new BehaviorSubject<RoomState>('idle');
-  connectionState$  = new BehaviorSubject<ConnectionStatus>('IDLE');
-  players$          = new BehaviorSubject<PlayerInfo[]>([]);
-  activeRooms$      = new BehaviorSubject<ActiveRoom[]>([]);
-  error$            = new BehaviorSubject<string>('');
-  messages$         = new Subject<GameMessage>();
-  gameStart$        = new Subject<GameAssignment>();
+  state$ = new BehaviorSubject<RoomState>('idle');
+  connectionState$ = new BehaviorSubject<ConnectionStatus>('IDLE');
+  players$ = new BehaviorSubject<PlayerInfo[]>([]);
+  activeRooms$ = new BehaviorSubject<ActiveRoom[]>([]);
+  error$ = new BehaviorSubject<string>('');
+  messages$ = new Subject<GameMessage>();
+  gameStart$ = new Subject<GameAssignment>();
   lastAssignment: GameAssignment | null = null;
-  roomClosed$       = new Subject<string>();
-  roomReset$        = new Subject<string>();
+  roomClosed$ = new Subject<string>();
+  roomReset$ = new Subject<string>();
   lastJoinError: { code: string; message: string } | null = null;
 
   config: RoomConfig | null = null;
@@ -94,36 +94,15 @@ export class RoomService implements OnDestroy {
     queueMicrotask(() => {
       try {
         this.appRef.tick();
-      } catch (e) {}
+      } catch (e) { }
     });
   }
 
   // ── Helper: URLs ──────────────────────────────────────────────────────────
 
   getBaseUrl(): string {
-    let configured = (environment.BACKEND_URL || '').trim().replace(/\/+$/, '');
-
-    // In browser: prevent production static site (e.g. imposter-dm9.pages.dev) from calling itself or localhost
-    if (typeof window !== 'undefined' && window.location) {
-      const hostname = window.location.hostname;
-      const isLocalHost = (
-        hostname === 'localhost' ||
-        hostname === '127.0.0.1' ||
-        hostname === '0.0.0.0' ||
-        hostname.startsWith('192.168.') ||
-        hostname.startsWith('10.') ||
-        hostname.endsWith('.local')
-      );
-
-      // If loaded on a remote domain (like Cloudflare Pages), force Render backend URL if not explicitly set to a remote server
-      if (!isLocalHost) {
-        if (!configured || configured.includes('localhost') || configured.includes('127.0.0.1') || configured.includes(hostname)) {
-          return 'https://imposter-rgnc.onrender.com';
-        }
-      }
-    }
-
-    return configured || 'http://localhost:3000';
+    let configured = environment.BACKEND_URL;
+    return configured;
   }
 
   getApiUrl(path: string): string {
@@ -325,7 +304,7 @@ export class RoomService implements OnDestroy {
       if (res.ok) {
         return await res.json();
       }
-    } catch (e) {}
+    } catch (e) { }
     return null;
   }
 
@@ -494,7 +473,7 @@ export class RoomService implements OnDestroy {
             body: JSON.stringify({ uid }),
           });
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     this.resetRoomState();
@@ -509,7 +488,7 @@ export class RoomService implements OnDestroy {
         await fetch(this.getApiUrl(`/api/rooms/${roomId}`), {
           method: 'DELETE',
         });
-      } catch (e) {}
+      } catch (e) { }
     }
 
     this.resetRoomState();
@@ -566,7 +545,7 @@ export class RoomService implements OnDestroy {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       try {
         this.ws.send(JSON.stringify(data));
-      } catch (e) {}
+      } catch (e) { }
     }
   }
 
@@ -609,7 +588,7 @@ export class RoomService implements OnDestroy {
     clearTimeout(this.reconnectTimer);
     clearInterval(this.pingTimer);
     if (this.ws) {
-      try { this.ws.close(); } catch (e) {}
+      try { this.ws.close(); } catch (e) { }
       this.ws = null;
     }
   }
