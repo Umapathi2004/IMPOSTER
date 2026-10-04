@@ -1,0 +1,110 @@
+<div class="overlay" (click)="onOverlayClick($event)">
+  <div class="modal">
+    <div class="drag-handle"></div>
+
+    <div class="modal-header">
+      <div class="header-top">
+        <span class="modal-tag">TAC-OPS // PROTOCOL MANUAL</span>
+        <button class="icon-close-btn" (click)="close.emit()" title="Close manual">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-title">FIELD MANUAL</div>
+      <div class="modal-sub">Tactical briefing on game rules, agent roles, and survival protocol.</div>
+    </div>
+
+    <div class="manual-content">
+      <!-- ── SECTION 1: CORE DIRECTIVE ── -->
+      <div class="manual-card highlight">
+        <div class="card-tag"><i class="fa-solid fa-bullseye"></i> CORE DIRECTIVE</div>
+        <div class="card-headline">ONE WORD. ONE INFILTRATOR.</div>
+        <div class="card-desc">
+          All loyal crew members receive the <strong>exact same secret word</strong>. The Impostor is kept in the dark and only sees the category!
+        </div>
+      </div>
+
+      <!-- ── SECTION 2: PROTOCOL STEPS ── -->
+      <div class="section-title">
+        <i class="fa-solid fa-list-ol"></i> MISSION PROTOCOL
+      </div>
+
+      <div class="protocol-steps">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <div class="step-head">INSPECT DOSSIER</div>
+            <div class="step-text">Each operative taps their terminal card privately to reveal their role and secret word. Keep your screen protected from view!</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <div class="step-head">GIVE BRIEF CLUES</div>
+            <div class="step-text">Take turns in real life giving <strong>one word or short clue</strong> relating to the secret word. The Impostor must bluff and blend in!</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <div class="step-head">CROSS-EXAMINE & VOTE</div>
+            <div class="step-text">Debate suspicious answers. Vote as a crew on who appears to not know the word.</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <div class="step-head">UNMASK THE TRUTH</div>
+            <div class="step-text">Tap <strong>SHOW IMPOSTOR</strong> to reveal the infiltrator and see if the crew prevailed!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 3: ROLES BREAKDOWN ── -->
+      <div class="section-title">
+        <i class="fa-solid fa-users-viewfinder"></i> AGENT ROLES
+      </div>
+
+      <div class="roles-grid">
+        <div class="role-box crew">
+          <div class="role-badge"><i class="fa-solid fa-shield-halved"></i> LOYAL CREW</div>
+          <div class="role-title">KNOWS THE WORD</div>
+          <div class="role-desc">
+            Give clues that other crew recognize, but subtle enough so the Impostor cannot easily guess the secret word.
+          </div>
+        </div>
+
+        <div class="role-box impostor">
+          <div class="role-badge impostor-badge"><i class="fa-solid fa-user-secret"></i> THE IMPOSTOR</div>
+          <div class="role-title">INFILTRATOR</div>
+          <div class="role-desc">
+            You do <strong>not</strong> know the word! Listen closely to earlier clues, bluff convincingly, and divert suspicion!
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 4: TACTICAL TIPS ── -->
+      <div class="section-title">
+        <i class="fa-solid fa-lightbulb"></i> TACTICAL TIPS
+      </div>
+
+      <div class="tips-list">
+        <div class="tip-item">
+          <i class="fa-solid fa-crosshairs"></i>
+          <div><strong>For Crew:</strong> Don't make clues too obvious! If the Impostor deduces the word, they can easily echo it.</div>
+        </div>
+        <div class="tip-item">
+          <i class="fa-solid fa-mask"></i>
+          <div><strong>For Impostor:</strong> Stay confident. Blend with generic clues and observe everyone's body language.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FOOTER DISMISS ── -->
+    <button class="confirm-btn" (click)="close.emit()">
+      <i class="fa-solid fa-check"></i> DISMISS // UNDERSTOOD
+    </button>
+  </div>
+</div>

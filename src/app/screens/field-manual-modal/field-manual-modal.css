@@ -1,0 +1,326 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 120;
+  backdrop-filter: blur(6px);
+}
+
+.modal {
+  width: 100%;
+  max-width: 520px;
+  background: #140500;
+  border: 1px solid rgba(180, 63, 26, 0.4);
+  border-bottom: none;
+  border-radius: 24px 24px 0 0;
+  padding: 16px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: slide-up 0.25s ease;
+  max-height: 88dvh;
+  box-sizing: border-box;
+  overflow-y: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.drag-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-tag {
+  font-family: var(--lable-font);
+  font-size: 9px;
+  color: var(--primary-color);
+  letter-spacing: 2px;
+}
+
+.icon-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+  }
+}
+
+.modal-title {
+  font-family: var(--headline-font);
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.modal-sub {
+  font-family: var(--lable-font);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+/* ── CONTENT BODY ── */
+.manual-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── HIGHLIGHT CARD ── */
+.manual-card {
+  background: rgba(180, 63, 26, 0.1);
+  border: 1px solid rgba(180, 63, 26, 0.35);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-tag {
+  font-family: var(--lable-font);
+  font-size: 8px;
+  color: var(--primary-color);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-headline {
+  font-family: var(--headline-font);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.card-desc {
+  font-family: var(--lable-font);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  strong { color: #fff; }
+}
+
+/* ── SECTION TITLES ── */
+.section-title {
+  font-family: var(--lable-font);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  i { color: var(--primary-color); font-size: 11px; }
+}
+
+/* ── PROTOCOL STEPS ── */
+.protocol-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.step-num {
+  font-family: var(--headline-font);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1;
+  background: rgba(180, 63, 26, 0.15);
+  border: 1px solid rgba(180, 63, 26, 0.3);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.step-head {
+  font-family: var(--headline-font);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.step-text {
+  font-family: var(--lable-font);
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  strong { color: #fff; }
+}
+
+/* ── ROLES GRID ── */
+.roles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.role-box {
+  border-radius: 14px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.role-box.crew {
+  background: rgba(74, 222, 128, 0.06);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.role-box.impostor {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.role-badge {
+  font-family: var(--lable-font);
+  font-size: 8px;
+  color: var(--tertiary-color);
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.role-badge.impostor-badge {
+  color: #ef4444;
+}
+
+.role-title {
+  font-family: var(--headline-font);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.role-desc {
+  font-family: var(--lable-font);
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  strong { color: #fff; }
+}
+
+/* ── TIPS ── */
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tip-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: var(--lable-font);
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  i {
+    color: var(--primary-color);
+    font-size: 12px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  strong { color: #fff; }
+}
+
+/* ── DISMISS BUTTON ── */
+.confirm-btn {
+  background: var(--primary-color);
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-family: var(--lable-font);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+  transition: opacity 0.2s, transform 0.1s;
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (max-width: 400px) {
+  .roles-grid {
+    grid-template-columns: 1fr;
+  }
+}

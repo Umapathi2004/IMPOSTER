@@ -26,7 +26,7 @@
         <span class="info-label">ROOM ID</span>
         <span class="info-value">
           {{ roomId }}
-          <i class="fa-solid" [class.fa-copy]="!copied" [class.fa-check]="copied" style="font-size: 10px; margin-left: 4px; color: var(--primary-color);"></i>
+          <i class="fa-solid" [class.fa-copy]="!copied" [class.fa-check]="copied" style="font-size: 10px; margin-left: 4px;" [style.color]="copied ? 'var(--tertiary-color)' : 'var(--primary-color)'"></i>
         </span>
       </div>
       <div class="info-cell">
@@ -66,8 +66,8 @@
           <div class="qr-top-row">
             <div class="qr-dot"></div>
             <span class="qr-label">ROOM CODE: {{ roomId }}</span>
-            <button class="chunk-btn" style="padding: 2px 8px; font-size: 10px;" (click)="copyRoomId()">
-              {{ copied ? 'COPIED!' : 'COPY' }}
+            <button class="chunk-btn" [class.copied]="copied" (click)="copyRoomId()" [title]="copied ? 'Copied!' : 'Copy room code'">
+              <i class="fa-solid" [class.fa-copy]="!copied" [class.fa-check]="copied"></i>
             </button>
           </div>
           <div class="qr-img-wrap">

@@ -27,7 +27,7 @@
         <div class="deck-label">DECK CONSOLE <span class="dot">●</span> TAC-LINK</div>
         <div class="game-title">IMP<span>O</span>STER</div>
         <div class="tagline">[ FIND WHO DOESN'T KNOW THE WORD ]</div>
-        <div class="local-badge"><span class="dot-green">●</span> LOCAL MULTIPLAYER — NO INTERNET REQUIRED</div>
+        <div class="local-badge"><span class="dot-green">●</span> ONLINE MULTIPLAYER — REALTIME GAMEPLAY</div>
     </div>
 
     <div class="actions">
@@ -51,10 +51,10 @@
     </div>
 
     <div class="util-row">
-        <button class="util-btn"><i class="fa-solid fa-book-open"></i> FIELD MANUAL</button>
+        <button class="util-btn" (click)="showFieldManual = true"><i class="fa-solid fa-book-open"></i> FIELD MANUAL</button>
         <button class="util-btn" [class.fx-active]="fxOn" (click)="toggleFx()">
             <i class="fa-solid" [class.fa-volume-high]="fxOn" [class.fa-volume-xmark]="!fxOn"></i>
-            FX // CRT: {{ fxOn ? 'ON' : 'OFF' }}
+            MUSIC: {{ fxOn ? 'ON' : 'OFF' }}
         </button>
     </div>
 
@@ -74,7 +74,7 @@
             </div>
             <div class="radar-cell">
                 <span class="cell-label">TOPOLOGY</span>
-                <span class="cell-value">NODE: AD-HOC</span>
+                <span class="cell-value">SERVER: CLOUD</span>
             </div>
             <div class="radar-cell">
                 <span class="cell-label">CAPACITY</span>
@@ -105,4 +105,8 @@
 
 @if (showProfileModal) {
     <app-profile-modal (done)="onProfileDone($event)" (close)="showProfileModal = false" />
+}
+
+@if (showFieldManual) {
+    <app-field-manual-modal (close)="showFieldManual = false" />
 }
