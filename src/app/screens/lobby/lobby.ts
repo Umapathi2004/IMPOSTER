@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import QRCode from 'qrcode';
 import { RoomService, PlayerInfo } from '../../services/room.service';
 import { ProfileService, UserProfile } from '../../services/profile.service';
+import { CustomMessageService } from '../../services/custom-message.service';
 
 @Component({
   selector: 'app-lobby',
@@ -45,57 +46,98 @@ export class Lobby implements OnInit, OnDestroy {
     private router: Router,
     private roomService: RoomService,
     private profileService: ProfileService,
+    private messageService: CustomMessageService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.profile = this.profileService.get()!;
     this.roomId  = (this.route.snapshot.paramMap.get('id') ?? '').toUpperCase();
 
-    // If player navigated directly or refreshed, ensure connected to room
-    if (!this.roomService.config || this.roomService.config.roomId !== this.roomId) {
-      if (this.profile) {
-        await this.roomService.joinRoom(this.roomId);
-      }
-    } else {
-      // Already in room — re-sync room state from server
-      this.roomService.ensureWebSocketConnected();
-    }
+    // Immediately initialize current room data before any async calls
+    this.players = this.roomService.players$.value;
+    this.connectionState = this.roomService.connectionState$.value;
 
-    // Generate clean QR code of the room ID
-    try {
-      this.qrImageUrl = await QRCode.toDataURL(this.roomId, {
-        margin: 1,
-        width: 250,
-        color: { dark: '#000000', light: '#ffffff' },
-      });
-    } catch (e) {
-      console.error('Failed to generate invite QR:', e);
-    }
-
-    // Subscriptions
+    // Subscriptions setup synchronously so no events are missed
     this.subs.add(this.roomService.players$.subscribe(p => {
       this.players = p;
+      this.cdr.markForCheck();
     }));
 
     this.subs.add(this.roomService.connectionState$.subscribe(s => {
       this.connectionState = s;
+      this.cdr.markForCheck();
     }));
 
-    this.subs.add(this.roomService.gameStart$.subscribe(assignment => {
+    this.subs.add(this.roomService.gameStart$.subscribe(() => {
       this.gameStarted = true;
       this.router.navigate(['/game', this.roomId]);
     }));
 
-    this.subs.add(this.roomService.roomClosed$.subscribe(reason => {
-      alert(`The room was closed (${reason})`);
+    this.subs.add(this.roomService.roomClosed$.subscribe(async reason => {
+      await this.messageService.alert(
+        reason || 'The host has left the room. The game has ended.',
+        'ROOM CLOSED',
+        'warning'
+      );
       this.router.navigate(['/']);
     }));
+
+    // Generate QR code immediately for the room
+    if (this.roomId) {
+      this._generateQrCode(this.roomId);
+    }
+
+    // If player navigated directly or refreshed, ensure connected to room
+    if (!this.roomService.config || this.roomService.config.roomId !== this.roomId || this.roomService.roomStatus === 'in-game') {
+      this.roomService.joinRoom(this.roomId).then(async ok => {
+        if (!ok) {
+          const err = this.roomService.lastJoinError;
+          if (err?.code === 'NOT_ALLOWED_IN_GAME') {
+            await this.messageService.showModal({
+              title: 'NOT ALLOWED IN THIS GAME',
+              message: err.message || 'You are not allowed to join this game. Game is already in progress!',
+              type: 'error',
+              buttonText: 'RETURN TO HOME',
+              icon: 'fa-solid fa-ban',
+            });
+            this.router.navigate(['/']);
+            return;
+          }
+        }
+        if (this.roomService.lastAssignment || this.roomService.roomStatus === 'in-game') {
+          this.router.navigate(['/game', this.roomId]);
+          return;
+        }
+        this.cdr.markForCheck();
+      });
+    } else {
+      // Already in room — re-sync room state from server
+      this.roomService.ensureWebSocketConnected();
+    }
+  }
+
+  private async _generateQrCode(code: string) {
+    try {
+      this.qrImageUrl = await QRCode.toDataURL(code, {
+        margin: 1,
+        width: 250,
+        color: { dark: '#000000', light: '#ffffff' },
+      });
+      this.cdr.markForCheck();
+    } catch (e) {
+      console.error('Failed to generate invite QR:', e);
+    }
   }
 
   copyRoomId() {
     navigator.clipboard?.writeText(this.roomId);
     this.copied = true;
-    setTimeout(() => this.copied = false, 2000);
+    this.cdr.markForCheck();
+    setTimeout(() => {
+      this.copied = false;
+      this.cdr.markForCheck();
+    }, 2000);
   }
 
   // ── Actions ───────────────────────────────────────────────────────────────
@@ -115,7 +157,11 @@ export class Lobby implements OnInit, OnDestroy {
     if (!this.canStart) return;
     const ok = await this.roomService.startGame();
     if (!ok) {
-      alert(this.roomService.error$.value || 'Could not start game');
+      await this.messageService.alert(
+        this.roomService.error$.value || 'Could not start game',
+        'LAUNCH FAILED',
+        'error'
+      );
     }
   }
 

@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { ApplicationRef, inject, Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ProfileService, UserProfile } from './profile.service';
 import { WordService } from './word.service';
@@ -14,8 +14,12 @@ export interface RoomConfig {
 export interface GameAssignment {
   isImpostor: boolean;
   word: string | null;
+  hint?: string | null;
   players: PlayerInfo[];
   config: RoomConfig;
+  leftUids?: string[];
+  revealedUids?: string[];
+  showImposterUids?: string[];
 }
 
 export interface PlayerInfo {
@@ -66,20 +70,32 @@ export class RoomService implements OnDestroy {
   gameStart$        = new Subject<GameAssignment>();
   lastAssignment: GameAssignment | null = null;
   roomClosed$       = new Subject<string>();
+  roomReset$        = new Subject<string>();
+  lastJoinError: { code: string; message: string } | null = null;
 
   config: RoomConfig | null = null;
   isHost = false;
   myPlayerId = '';
   currentRoomId: string | null = null;
+  roomStatus = 'idle';
 
   private ws: WebSocket | null = null;
   private wsConnecting = false;
   private reconnectTimer: any = null;
   private pingTimer: any = null;
+  private appRef = inject(ApplicationRef);
 
   constructor(private profileService: ProfileService, private wordService: WordService) {
     // Connect to WebSocket immediately to receive live active rooms
     this.ensureWebSocketConnected();
+  }
+
+  notifyChange(): void {
+    queueMicrotask(() => {
+      try {
+        this.appRef.tick();
+      } catch (e) {}
+    });
   }
 
   // ── Helper: URLs ──────────────────────────────────────────────────────────
@@ -117,6 +133,7 @@ export class RoomService implements OnDestroy {
         log('WS', 'Connected to backend WebSocket');
         this.wsConnecting = false;
         this.connectionState$.next('CONNECTED');
+        this.notifyChange();
 
         // If currently in a room, re-register
         if (this.currentRoomId && this.myPlayerId) {
@@ -146,6 +163,7 @@ export class RoomService implements OnDestroy {
         if (this.state$.value === 'connected' || this.state$.value === 'hosting') {
           this.connectionState$.next('DISCONNECTED');
         }
+        this.notifyChange();
         // Auto-reconnect in 2 seconds
         clearTimeout(this.reconnectTimer);
         this.reconnectTimer = setTimeout(() => this.ensureWebSocketConnected(), 2000);
@@ -187,6 +205,24 @@ export class RoomService implements OnDestroy {
             this._applyRoomData(msg.room);
           }
         }
+        if (msg.action) {
+          this.messages$.next({
+            type: msg.action,
+            payload: msg,
+            senderUid: msg.uid || msg.player?.uid,
+            timestamp: Date.now(),
+          });
+        }
+        break;
+      }
+
+      case 'PLAYER_LEFT': {
+        this.messages$.next({
+          type: 'PLAYER_LEFT',
+          payload: msg,
+          senderUid: msg.uid,
+          timestamp: Date.now(),
+        });
         break;
       }
 
@@ -201,6 +237,7 @@ export class RoomService implements OnDestroy {
             players: msg.players,
             isImpostor: !!msg.isImpostor,
             word: msg.word ?? null,
+            hint: msg.hint ?? null,
           };
           this.lastAssignment = assignment;
           this.gameStart$.next(assignment);
@@ -211,32 +248,65 @@ export class RoomService implements OnDestroy {
       // Room closed / destroyed
       case 'ROOM_CLOSED': {
         log('ROOM', 'Room closed by server / host');
-        this.roomClosed$.next(msg.reason || 'Room closed');
+        const reason = msg.message || msg.reason || 'The host has left the room. The game has ended.';
+        this.roomClosed$.next(reason);
         this.resetRoomState();
         break;
       }
 
+      // Room reset for another round
+      case 'ROOM_RESET': {
+        log('ROOM', 'Room reset for another round');
+        if (msg.room) {
+          this._applyRoomData(msg.room);
+        }
+        this.roomReset$.next(msg.roomId || this.currentRoomId || '');
+        break;
+      }
+
+      case 'IMPOSTOR_REVEALED':
       case 'GAME_ACTION':
       case 'GAME_MESSAGE': {
         this.messages$.next({
           type: msg.type,
-          payload: msg.payload,
+          payload: msg.type === 'IMPOSTOR_REVEALED' ? msg : msg.payload,
           senderUid: msg.senderUid,
           timestamp: msg.timestamp,
         });
         break;
       }
     }
+    this.notifyChange();
+  }
+
+  async resetGame(): Promise<boolean> {
+    if (!this.currentRoomId) return false;
+    this.sendMessage('GAME_ACTION', { action: 'PLAY_AGAIN' });
+    try {
+      await fetch(this.getApiUrl(`/api/rooms/${this.currentRoomId}/reset`), {
+        method: 'POST',
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async fetchImpostors(): Promise<{ impostors: PlayerInfo[]; word: string | null } | null> {
+    if (!this.currentRoomId) return null;
+    try {
+      const res = await fetch(this.getApiUrl(`/api/rooms/${this.currentRoomId}/impostors`));
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (e) {}
+    return null;
   }
 
   // ── 1. Create Room (Host) ─────────────────────────────────────────────────
 
   async createRoom(cfg: RoomConfig): Promise<boolean> {
-    const profile = this.profileService.get();
-    if (!profile) {
-      this.error$.next('Profile required to create room');
-      return false;
-    }
+    const profile = this.profileService.get() || this.profileService.getOrCreate();
 
     this.ensureWebSocketConnected();
     this.state$.next('hosting');
@@ -299,11 +369,7 @@ export class RoomService implements OnDestroy {
   // ── 2. Join Room (Crew) ───────────────────────────────────────────────────
 
   async joinRoom(roomId: string): Promise<boolean> {
-    const profile = this.profileService.get();
-    if (!profile) {
-      this.error$.next('Profile required to join room');
-      return false;
-    }
+    const profile = this.profileService.get() || this.profileService.getOrCreate();
 
     this.ensureWebSocketConnected();
     const cleanRoomId = roomId.trim().toUpperCase();
@@ -327,13 +393,22 @@ export class RoomService implements OnDestroy {
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || `Could not join room (${res.status})`);
+        const code = errData.error || `HTTP_${res.status}`;
+        const message = errData.message || errData.error || `Could not join room (${res.status})`;
+        this.lastJoinError = { code, message };
+        throw new Error(message);
       }
 
+      this.lastJoinError = null;
       const data = await res.json();
       log('ROOM', 'Joined room successfully', data.room.roomId);
 
       this._applyRoomData(data.room);
+
+      if (data.assignment) {
+        this.lastAssignment = data.assignment;
+        this.gameStart$.next(data.assignment);
+      }
 
       // Register socket in this room channel
       this._sendWs({
@@ -377,15 +452,22 @@ export class RoomService implements OnDestroy {
   async leaveRoom(): Promise<void> {
     const roomId = this.currentRoomId;
     const uid = this.myPlayerId;
+    const isHost = this.isHost;
 
     if (roomId && uid) {
-      this._sendWs({ type: 'LEAVE_ROOM', roomId, uid });
+      this._sendWs({ type: 'LEAVE_ROOM', roomId, uid, isHost });
       try {
-        await fetch(this.getApiUrl(`/api/rooms/${roomId}/leave`), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ uid }),
-        });
+        if (isHost) {
+          await fetch(this.getApiUrl(`/api/rooms/${roomId}`), {
+            method: 'DELETE',
+          });
+        } else {
+          await fetch(this.getApiUrl(`/api/rooms/${roomId}/leave`), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ uid }),
+          });
+        }
       } catch (e) {}
     }
 
@@ -420,7 +502,12 @@ export class RoomService implements OnDestroy {
       const res = await fetch(this.getApiUrl(`/api/rooms/${this.currentRoomId}/start`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uid: this.myPlayerId, word: picked?.word ?? 'UNKNOWN' }),
+        body: JSON.stringify({
+          uid: this.myPlayerId,
+          word: picked?.word ?? 'UNKNOWN',
+          hint: picked?.hint ?? '',
+          category: picked?.category ?? this.config?.category ?? 'ALL',
+        }),
       });
 
       if (!res.ok) {
@@ -469,7 +556,9 @@ export class RoomService implements OnDestroy {
       this.players$.next(room.players);
     }
 
+    this.roomStatus = room.status || 'waiting';
     this.isHost = (room.hostId === this.myPlayerId);
+    this.notifyChange();
   }
 
   resetRoomState() {
@@ -477,10 +566,12 @@ export class RoomService implements OnDestroy {
     this.config = null;
     this.isHost = false;
     this.lastAssignment = null;
+    this.roomStatus = 'idle';
     this.state$.next('idle');
     this.connectionState$.next('IDLE');
     this.players$.next([]);
     this.error$.next('');
+    this.notifyChange();
   }
 
   static generateRoomId(): string {

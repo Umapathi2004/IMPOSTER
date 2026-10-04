@@ -1,184 +1,329 @@
-<div class="container">
+<div class="container retro-container">
 
-  <!-- ── PHASE: REVEAL ── -->
-  @if (phase === 'reveal') {
-    <div class="phase-wrap">
-      <div class="phase-header">
-        <span class="room-tag">ROOM // {{ roomId }}</span>
-        <span class="phase-label">ROLE REVEAL</span>
+  <!-- Scanline CRT overlay for retro aesthetic -->
+  <div class="crt-overlay"></div>
+
+  <!-- Reconnecting overlay on refresh -->
+  @if (isReconnecting) {
+    <div class="access-checking-overlay">
+      <div class="access-checking-card">
+        <i class="fa-solid fa-satellite-dish fa-spin checking-icon"></i>
+        <div class="checking-title">RECONNECTING...</div>
+        <div class="checking-sub">Syncing game session & role credentials</div>
       </div>
+    </div>
+  }
 
-      @if (!revealed) {
-        <div class="reveal-card tap-card" (click)="tapReveal()">
-          <div class="tap-icon"><i class="fa-solid fa-hand-pointer"></i></div>
-          <div class="tap-title">TAP TO REVEAL YOUR ROLE</div>
-          <div class="tap-hint">Keep your screen private</div>
-        </div>
-      } @else {
-        <div class="reveal-card" [class.impostor-card]="isImpostor" [class.crew-card]="!isImpostor">
-          <div class="role-badge" [class.impostor]="isImpostor">
-            <i class="fa-solid" [class.fa-user-secret]="isImpostor" [class.fa-user-astronaut]="!isImpostor"></i>
-            {{ isImpostor ? 'IMPOSTOR' : 'CREW MEMBER' }}
+  <div class="phase-wrap" [class.full-card-mode]="revealStep === 'back' || revealStep === 'front'">
+    
+    <!-- Retro Header Bar -->
+    <div class="retro-header">
+      <div class="header-left">
+        <span class="retro-led-dot"></span>
+        <span class="room-tag">TERMINAL // {{ roomId }}</span>
+      </div>
+      <div class="header-badge">
+        @if (revealStep === 'back' || revealStep === 'front') { [ ROLE_ID ] }
+        @else if (revealStep === 'waiting') { [ LIVE_SESSION ] }
+        @else { [ UNMASKED ] }
+      </div>
+    </div>
+
+    <!-- ── STEP 1: RETRO CARD FACE-DOWN (BACK) ── -->
+    @if (revealStep === 'back') {
+      <div class="retro-card-scene" [class.flipping]="isFlipping" (click)="tapReveal()">
+        <div class="retro-card retro-card-back">
+          <div class="corner-bracket tl"></div>
+          <div class="corner-bracket tr"></div>
+          <div class="corner-bracket bl"></div>
+          <div class="corner-bracket br"></div>
+
+          <div class="retro-stamp top">[ CLASSIFIED DOSSIER ]</div>
+
+          <div class="card-center-group">
+            <div class="retro-mystery-circle">
+              <div class="cyber-radar-sweep"></div>
+              <i class="fa-solid fa-fingerprint retro-fingerprint"></i>
+            </div>
+
+            <div class="retro-card-title">TAP TO REVEAL IDENTITY</div>
+            <div class="retro-card-hint">
+              <i class="fa-solid fa-shield-halved"></i> SECURE SCREEN FROM VIEW
+            </div>
           </div>
 
+          <div class="retro-bar-lines">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ── STEP 2: RETRO CARD FACE-UP (FRONT) ── -->
+    @if (revealStep === 'front') {
+      <div class="retro-card-scene">
+        <div class="retro-card retro-card-front" [class.impostor-mode]="isImpostor" [class.crew-mode]="!isImpostor">
+          <div class="corner-bracket tl"></div>
+          <div class="corner-bracket tr"></div>
+          <div class="corner-bracket bl"></div>
+          <div class="corner-bracket br"></div>
+
+          <!-- Top Status Tag -->
+          <div class="retro-role-banner" [class.impostor]="isImpostor">
+            <i class="fa-solid" [class.fa-user-secret]="isImpostor" [class.fa-user-astronaut]="!isImpostor"></i>
+            {{ isImpostor ? 'ROLE: IMPOSTOR' : 'ROLE: CREW MEMBER' }}
+          </div>
+
+          <!-- CREW VIEW: SECRET WORD -->
           @if (!isImpostor) {
-            <div class="word-section">
-              <div class="word-label">THE SECRET WORD IS</div>
-              <div class="word-value">{{ word }}</div>
-              <div class="word-hint">Describe it without saying the word</div>
+            <div class="retro-body-content">
+              <div class="retro-label-tag">TARGET SECRET WORD</div>
+              <div class="retro-secret-word">{{ word }}</div>
+              <div class="retro-sub-hint">
+                <i class="fa-solid fa-bullhorn"></i> Give clues in real life without saying the actual word!
+              </div>
+            </div>
+          }
+
+          <!-- IMPOSTOR VIEW: MISSION + WORD HINT -->
+          @if (isImpostor) {
+            <div class="retro-body-content impostor-body">
+              <div class="retro-impostor-warning">
+                <i class="fa-solid fa-triangle-exclamation"></i> YOU DON'T HAVE THE WORD
+              </div>
+              
+              <div class="retro-mission-box">
+                <div class="mission-text">
+                  Blend into the conversation. Listen closely to the clues and figure out the word!
+                </div>
+              </div>
+
+              <!-- HINT FOR IMPOSTER -->
+              @if (hint) {
+                <div class="retro-hint-terminal">
+                  <div class="hint-terminal-header">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>INTERCEPTED HINT:</span>
+                  </div>
+                  <div class="hint-terminal-value">"{{ hint }}"</div>
+                  <div class="hint-terminal-note">Use this hint to bluff and avoid suspicion</div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- OK HIDE BUTTON -->
+          <button class="retro-btn ok-action-btn" (click)="confirmReveal()">
+            <i class="fa-solid fa-eye-slash"></i> OK, HIDE CARD
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ── STEP 3: REAL-LIFE DISCUSSION & IN-PROGRESS ── -->
+    @if (revealStep === 'waiting') {
+      <div class="waiting-wrap">
+        
+        <!-- Scrollable Content Above Fixed Bottom Button -->
+        <div class="waiting-scroll-content">
+          <!-- Retro Real-Life Banner -->
+          <div class="retro-reallife-card">
+            <div class="reallife-marquee">
+              <span class="marquee-tag">/// REAL-LIFE MODE ACTIVE ///</span>
+            </div>
+            <div class="reallife-speaker-icon">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <div class="reallife-heading">DISCUSS IN REAL LIFE</div>
+            <div class="reallife-desc">
+              Look at each other, ask questions, give hints, and sniff out the imposter!
+            </div>
+          </div>
+
+          <!-- Players status list -->
+          <div class="retro-status-section">
+            <div class="retro-section-label">
+              <span>CREW IDENTITY CHECK</span>
+              <span class="active-count-tag">[ {{ activePlayersCount }} / {{ players.length }} ONLINE ]</span>
+            </div>
+
+            <!-- Dynamic Alert Strips -->
+            @if (leftUids.size > 0) {
+              <div class="crew-status-strip strip-left">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>PLAYER OFFLINE: {{ leftPlayersNames }} LEFT</span>
+              </div>
+            }
+
+            @if (lastRejoinedName) {
+              <div class="crew-status-strip strip-rejoined">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>PLAYER REJOINED: {{ lastRejoinedName }} IS BACK ONLINE</span>
+              </div>
+            }
+
+            <div class="retro-players-grid">
+              @for (p of players; track p.uid) {
+                <div class="retro-player-pill"
+                     [class.ready]="revealedUids.has(p.uid) && !leftUids.has(p.uid)"
+                     [class.player-left]="leftUids.has(p.uid)"
+                     [class.player-rejoined]="rejoinedUids.has(p.uid) && !leftUids.has(p.uid)">
+                  <img [src]="p.avatar" [alt]="p.name" class="pill-avatar" />
+                  
+                  <div class="pill-info-col">
+                    <div class="pill-name-row">
+                      <span class="pill-name">{{ p.name }}</span>
+                      @if (p.uid === myUid) {
+                        <span class="pill-me-tag">YOU</span>
+                      }
+                    </div>
+                    <div class="pill-sub-status">
+                      @if (leftUids.has(p.uid)) {
+                        <span class="sub-status-text text-danger">OFFLINE // LEFT GAME</span>
+                      } @else if (rejoinedUids.has(p.uid)) {
+                        <span class="sub-status-text text-success">ONLINE // REJOINED</span>
+                      } @else if (revealedUids.has(p.uid)) {
+                        <span class="sub-status-text text-ready">IDENTITY CONFIRMED</span>
+                      } @else {
+                        <span class="sub-status-text text-muted">CHECKING DOSSIER...</span>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="pill-status-icon">
+                    @if (leftUids.has(p.uid)) {
+                      <span class="pill-left-badge"><i class="fa-solid fa-person-walking-arrow-right"></i> LEFT</span>
+                    } @else if (rejoinedUids.has(p.uid)) {
+                      <span class="pill-rejoin-badge"><i class="fa-solid fa-rotate-left"></i> REJOINED</span>
+                    } @else if (revealedUids.has(p.uid)) {
+                      <i class="fa-solid fa-circle-check text-green"></i>
+                    } @else {
+                      <i class="fa-solid fa-clock text-amber"></i>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- ── FIXED BOTTOM STATIC ACTION BAR ── -->
+        <div class="retro-fixed-bottom-bar">
+          @if (!hasClickedShowImposter) {
+            <button class="retro-btn unmask-btn" (click)="requestShowImposter()">
+              <i class="fa-solid fa-mask"></i> SHOW IMPOSTER
+            </button>
+            <div class="retro-action-note">
+              {{ activeShowImposterCount }} / {{ activePlayersCount }} PLAYERS READY TO UNMASK
             </div>
           } @else {
-            <div class="word-section">
-              <div class="word-label">YOUR MISSION</div>
-              <div class="impostor-hint">Blend in. Don't get caught.<br>Figure out the secret word.</div>
-            </div>
-          }
-        </div>
-
-        <button class="primary-btn" (click)="proceedToDiscuss()">
-          <i class="fa-solid fa-comments"></i> START DISCUSSION
-        </button>
-      }
-    </div>
-  }
-
-  <!-- ── PHASE: DISCUSS ── -->
-  @if (phase === 'discuss') {
-    <div class="phase-wrap">
-      <div class="phase-header">
-        <span class="room-tag">ROOM // {{ roomId }}</span>
-        <span class="phase-label">DISCUSSION</span>
-      </div>
-
-      <div class="timer-ring" [class.urgent]="discussSeconds <= 30">
-        <div class="timer-value">{{ timerDisplay }}</div>
-        <div class="timer-sub">REMAINING</div>
-      </div>
-
-      <div class="discuss-hint">
-        <i class="fa-solid fa-circle-info"></i>
-        @if (isImpostor) {
-          You are the IMPOSTOR — listen carefully and blend in
-        } @else {
-          Describe the word <strong>{{ word }}</strong> without saying it
-        }
-      </div>
-
-      <div class="player-chips">
-        @for (p of players; track p.uid) {
-          <div class="player-chip" [class.me]="p.uid === myUid">
-            <img [src]="p.avatar" [alt]="p.name" />
-            <span>{{ p.name }}</span>
-            @if (p.uid === myUid) { <span class="you-tag">YOU</span> }
-          </div>
-        }
-      </div>
-
-      <button class="ghost-btn" (click)="skipDiscuss()">
-        <i class="fa-solid fa-forward"></i> SKIP TO VOTE
-      </button>
-    </div>
-  }
-
-  <!-- ── PHASE: VOTE ── -->
-  @if (phase === 'vote') {
-    <div class="phase-wrap">
-      <div class="phase-header">
-        <span class="room-tag">ROOM // {{ roomId }}</span>
-        <span class="phase-label">VOTE</span>
-      </div>
-
-      <div class="vote-title">
-        @if (!votedFor) {
-          WHO IS THE IMPOSTOR?
-        } @else {
-          VOTE CAST — WAITING FOR OTHERS...
-          <div class="vote-progress">{{ votes.size }} / {{ players.length }}</div>
-        }
-      </div>
-
-      <div class="vote-list">
-        @for (p of players; track p.uid) {
-          @if (p.uid !== myUid) {
-            <button class="vote-row"
-              [class.voted]="votedFor === p.uid"
-              [class.disabled]="!!votedFor"
-              (click)="castVote(p.uid)">
-              <img class="vote-avatar" [src]="p.avatar" [alt]="p.name" />
-              <span class="vote-name">{{ p.name }}</span>
-              @if (votedFor === p.uid) {
-                <i class="fa-solid fa-check vote-check"></i>
-              }
+            <button class="retro-btn unmask-btn waiting-btn" disabled>
+              <i class="fa-solid fa-circle-notch fa-spin"></i> WAITING FOR ALL ({{ activeShowImposterCount }} / {{ activePlayersCount }})
             </button>
-          }
-        }
-      </div>
-
-      @if (isHost && votedFor) {
-        <button class="ghost-btn" (click)="forceResults()">
-          <i class="fa-solid fa-flag-checkered"></i> REVEAL RESULTS
-        </button>
-      }
-    </div>
-  }
-
-  <!-- ── PHASE: RESULT ── -->
-  @if (phase === 'result') {
-    <div class="phase-wrap">
-      <div class="phase-header">
-        <span class="room-tag">ROOM // {{ roomId }}</span>
-        <span class="phase-label">RESULTS</span>
-      </div>
-
-      <div class="result-section">
-        <div class="result-label">ELIMINATED</div>
-        @if (eliminatedPlayer) {
-          <div class="eliminated-card">
-            <img [src]="eliminatedPlayer.avatar" [alt]="eliminatedPlayer.name" />
-            <div class="elim-name">{{ eliminatedPlayer.name }}</div>
-            @if (eliminatedPlayer.uid === myUid) {
-              <div class="elim-you">THAT'S YOU</div>
-            }
-          </div>
-        } @else {
-          <div class="no-elim">NO CONSENSUS</div>
-        }
-      </div>
-
-      <div class="result-section">
-        <div class="result-label">YOUR ROLE</div>
-        <div class="role-reveal-result" [class.impostor]="isImpostor">
-          <i class="fa-solid" [class.fa-user-secret]="isImpostor" [class.fa-user-astronaut]="!isImpostor"></i>
-          {{ isImpostor ? 'IMPOSTOR' : 'CREW' }}
-          @if (!isImpostor) { <span class="word-tag">{{ word }}</span> }
-        </div>
-      </div>
-
-      <div class="result-section">
-        <div class="result-label">VOTE BREAKDOWN</div>
-        <div class="vote-breakdown">
-          @for (r of voteResults; track r.player.uid) {
-            <div class="breakdown-row">
-              <img [src]="r.player.avatar" [alt]="r.player.name" />
-              <span class="bd-name">{{ r.player.name }}</span>
-              <div class="bd-bar-wrap">
-                <div class="bd-bar" [style.width.%]="players.length ? (r.count / players.length) * 100 : 0"></div>
-              </div>
-              <span class="bd-count">{{ r.count }}</span>
+            <div class="retro-action-note">
+              Imposter will be unmasked once all active players tap the button
             </div>
           }
         </div>
-      </div>
 
-      <div class="result-actions">
-        <button class="primary-btn" (click)="playAgain()">
-          <i class="fa-solid fa-rotate-right"></i> PLAY AGAIN
-        </button>
-        <button class="ghost-btn" (click)="goHome()">
-          <i class="fa-solid fa-house"></i> HOME
-        </button>
       </div>
-    </div>
-  }
+    }
+
+    <!-- ── STEP 4: BIG RETRO IMPOSTER REVEAL ── -->
+    @if (revealStep === 'imposter-reveal') {
+      <div class="imposter-reveal-wrap">
+        
+        <div class="retro-alarm-banner">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>IMPOSTOR UNMASKED</span>
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <!-- Big Retro Imposter Card -->
+        @if (impostorPlayers.length > 0) {
+          @for (imp of impostorPlayers; track imp.uid) {
+            <div class="big-retro-card imposter-display-card">
+              <div class="corner-bracket tl"></div>
+              <div class="corner-bracket tr"></div>
+              <div class="corner-bracket bl"></div>
+              <div class="corner-bracket br"></div>
+
+              <div class="cyber-target-frame">
+                <div class="cyber-reticle"></div>
+                <img [src]="imp.avatar" [alt]="imp.name" class="retro-imposter-avatar" />
+                <div class="retro-target-badge">
+                  <i class="fa-solid fa-crosshairs"></i>
+                </div>
+              </div>
+
+              <div class="retro-imposter-callout">
+                <span class="callout-label">IDENTITY CONFIRMED</span>
+                <span class="callout-name">{{ imp.name }}</span>
+              </div>
+
+              <div class="retro-imposter-stamp" [class.stamp-left]="leftUids.has(imp.uid)">
+                <i class="fa-solid fa-user-secret"></i> THE IMPOSTOR
+                @if (leftUids.has(imp.uid)) {
+                  <span class="left-indicator">[LEFT GAME]</span>
+                }
+                @if (imp.uid === myUid) {
+                  <span class="you-indicator">THAT'S YOU!</span>
+                }
+              </div>
+            </div>
+          }
+        } @else {
+          <!-- Fallback during resolving -->
+          <div class="big-retro-card imposter-display-card">
+            <div class="cyber-target-frame">
+              <i class="fa-solid fa-user-secret fallback-icon"></i>
+            </div>
+            <div class="retro-imposter-callout">
+              <span class="callout-name">
+                @if (isImpostor) { {{ myProfile?.name || 'YOU' }} }
+                @else { UNMASKING... }
+              </span>
+            </div>
+            <div class="retro-imposter-stamp">
+              <i class="fa-solid fa-user-secret"></i> THE IMPOSTOR
+            </div>
+          </div>
+        }
+
+        <!-- ── CONDITIONAL SECRET WORD DISPLAY ── -->
+        <!-- ONLY THE IMPOSTOR GETS TO SEE THE ACTUAL SECRET WORD -->
+        @if (isImpostor && word) {
+          <div class="retro-secret-word-box">
+            <div class="secret-box-header">
+              <i class="fa-solid fa-key"></i> SECRET WORD REVEALED TO YOU
+            </div>
+            <div class="secret-box-word">{{ word }}</div>
+            <div class="secret-box-sub">This is the word the crew was describing!</div>
+          </div>
+        }
+
+        <!-- FOR CREW MEMBERS: CONFIRMATION BADGE (WORD IS HIDDEN) -->
+        @if (!isImpostor) {
+          <div class="retro-crew-badge-card">
+            <div class="crew-badge-icon"><i class="fa-solid fa-check-double"></i></div>
+            <div class="crew-badge-title">CREW VICTORY</div>
+            <div class="crew-badge-desc">The imposter has been revealed to everyone!</div>
+          </div>
+        }
+
+        <!-- Retro Action Buttons -->
+        <div class="retro-end-actions">
+          <button class="retro-btn replay-btn" (click)="playAgain()">
+            <i class="fa-solid fa-rotate-right"></i> PLAY AGAIN
+          </button>
+          <button class="retro-btn-ghost" (click)="goHome()">
+            <i class="fa-solid fa-house"></i> EXIT TO HOME
+          </button>
+        </div>
+
+      </div>
+    }
+
+  </div>
 
 </div>

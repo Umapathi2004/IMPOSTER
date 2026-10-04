@@ -20,6 +20,17 @@ export class ProfileService {
     return raw ? JSON.parse(raw) : null;
   }
 
+  getOrCreate(): UserProfile {
+    let existing = this.get();
+    if (!existing) {
+      existing = this.save({
+        name: 'Operative ' + Math.floor(100 + Math.random() * 900),
+        avatar: 'avatars/01_red_running.png',
+      });
+    }
+    return existing;
+  }
+
   save(profile: Omit<UserProfile, 'uid'>): UserProfile {
     const existing = this.get();
     const full: UserProfile = {

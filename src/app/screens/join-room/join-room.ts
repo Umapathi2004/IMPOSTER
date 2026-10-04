@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -51,6 +51,7 @@ export class JoinRoom implements OnInit, OnDestroy {
     private profileService: ProfileService,
     public roomService: RoomService,
     private qrScanner: QrScannerService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -62,6 +63,7 @@ export class JoinRoom implements OnInit, OnDestroy {
     // Subscribe to live active rooms pushed by WebSocket
     this.subs.add(this.roomService.activeRooms$.subscribe(rooms => {
       this.activeRooms = rooms.filter(r => r.status !== 'closed');
+      this.cdr.markForCheck();
     }));
 
     // Initial fetch once just to populate immediately if WS is still handshaking
@@ -113,7 +115,11 @@ export class JoinRoom implements OnInit, OnDestroy {
       const ok = await this.roomService.joinRoom(roomId);
       if (ok) {
         log('JOIN', 'Successfully joined room', roomId);
-        this.router.navigate(['/lobby', roomId]);
+        if (this.roomService.lastAssignment || this.roomService.roomStatus === 'in-game') {
+          this.router.navigate(['/game', roomId]);
+        } else {
+          this.router.navigate(['/lobby', roomId]);
+        }
       } else {
         const err = this.roomService.error$.value || 'Could not join room';
         this.joinError = err.toUpperCase();

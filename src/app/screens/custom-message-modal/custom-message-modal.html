@@ -1,0 +1,66 @@
+<!-- Floating HUD Toast Notifications -->
+@if (toasts.length > 0) {
+  <div class="hud-toast-container">
+    @for (t of toasts; track t.id) {
+      <div
+        class="hud-toast"
+        [ngClass]="'toast-' + t.type"
+        (click)="dismissToast(t.id)"
+      >
+        <div class="toast-icon">
+          <i [class]="t.icon"></i>
+        </div>
+        <div class="toast-content">
+          <span class="toast-tag">[ HUD NOTIFICATION ]</span>
+          <span class="toast-msg">{{ t.message }}</span>
+        </div>
+        <button class="toast-close-btn" (click)="dismissToast(t.id); $event.stopPropagation()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    }
+  </div>
+}
+
+<!-- Modal Alert Dialog -->
+@if (modal) {
+  <div class="retro-modal-overlay" (click)="$event.stopPropagation()">
+    <!-- Background CRT scanlines overlay -->
+    <div class="modal-crt-scanline"></div>
+
+    <div class="retro-modal-box" [ngClass]="'modal-' + (modal.type || 'info')">
+      <!-- Corner brackets -->
+      <div class="corner-bracket tl"></div>
+      <div class="corner-bracket tr"></div>
+      <div class="corner-bracket bl"></div>
+      <div class="corner-bracket br"></div>
+
+      <!-- Top Terminal Tag -->
+      <div class="modal-top-bar">
+        <span class="pulse-indicator"></span>
+        <span class="terminal-tag">/// TERMINAL PROTOCOL // {{ (modal.type || 'INFO').toUpperCase() }} ///</span>
+      </div>
+
+      <!-- Alert Icon & Radar Ring -->
+      <div class="modal-icon-wrapper">
+        <div class="modal-radar-sweep"></div>
+        <i [class]="modal.icon" class="modal-core-icon"></i>
+      </div>
+
+      <!-- Title -->
+      <div class="modal-title-text">{{ modal.title }}</div>
+
+      <!-- Message Body -->
+      <div class="modal-message-body">
+        <div class="modal-message-decor">[MESSAGE RECORD]</div>
+        <div class="modal-message-content">{{ modal.message }}</div>
+      </div>
+
+      <!-- Action Button -->
+      <button class="retro-modal-action-btn" (click)="onAcknowledge()">
+        <i class="fa-solid fa-check"></i>
+        <span>{{ modal.buttonText }}</span>
+      </button>
+    </div>
+  </div>
+}
