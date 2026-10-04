@@ -416,7 +416,7 @@
 .retro-player-pill.player-rejoined {
   border-color: rgba(14, 165, 233, 0.5);
   background: rgba(14, 165, 233, 0.08);
-  box-shadow: 0 0 12px rgba(14, 165, 233, 0.25);
+  box-shadow: none;
 }
 
 .pill-avatar {
@@ -478,12 +478,7 @@
   padding: 3px 6px;
   border-radius: 4px;
   letter-spacing: 0.5px;
-  box-shadow: 0 0 8px rgba(2, 132, 199, 0.6);
-  animation: pulseRejoin 1s infinite alternate;
-}
-@keyframes pulseRejoin {
-  from { opacity: 0.85; transform: scale(0.97); }
-  to   { opacity: 1; transform: scale(1.03); }
+  box-shadow: none;
 }
 
 .text-green { color: #4ade80; }
@@ -711,7 +706,7 @@
 .access-checking-card {
   background: #181824;
   border: 1px solid rgba(255, 80, 36, 0.4);
-  box-shadow: 0 0 30px rgba(255, 80, 36, 0.25);
+  box-shadow: none;
   border-radius: 20px;
   padding: 32px 24px;
   text-align: center;
@@ -761,7 +756,7 @@
   padding: 3px 6px;
   border-radius: 4px;
   letter-spacing: 0.5px;
-  box-shadow: 0 0 6px rgba(220, 38, 38, 0.6);
+  box-shadow: none;
 }
 .stamp-left {
   border-color: rgba(239, 68, 68, 0.6) !important;

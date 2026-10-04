@@ -24,7 +24,7 @@
   border-radius: 14px;
   background: #14141e;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: none;
+  box-shadow: none !important;
   cursor: pointer;
   animation: toastDrop 0.25s ease-out forwards;
   transition: transform 0.15s, opacity 0.2s;
@@ -46,7 +46,7 @@
 .toast-error {
   border-color: #ef4444;
   background: #1a0f11;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .toast-error .toast-icon {
   color: #f87171;
@@ -59,7 +59,7 @@
 .toast-warning {
   border-color: #f59e0b;
   background: #1c150a;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .toast-warning .toast-icon {
   color: #fbbf24;
@@ -72,7 +72,7 @@
 .toast-info {
   border-color: #38bdf8;
   background: #0d1824;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .toast-info .toast-icon {
   color: #38bdf8;
@@ -85,7 +85,7 @@
 .toast-success {
   border-color: #22c55e;
   background: #0d1f14;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .toast-success .toast-icon {
   color: #4ade80;
@@ -181,7 +181,7 @@
   padding: 26px 22px;
   background: #17111a;
   border: 2px solid #ff5024;
-  box-shadow: none;
+  box-shadow: none !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -198,22 +198,22 @@
 .modal-error {
   border-color: #ef4444;
   background: #1c0e10;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .modal-warning {
   border-color: #f59e0b;
   background: #1f1408;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .modal-info {
   border-color: #0284c7;
   background: #0d1622;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .modal-success {
   border-color: #22c55e;
   background: #0a1c12;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 
 /* Corner brackets */
@@ -360,7 +360,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: none;
+  box-shadow: none !important;
   transition: transform 0.15s, opacity 0.15s, background-color 0.15s;
 }
 .retro-modal-action-btn:active {
@@ -369,17 +369,17 @@
 }
 .modal-error .retro-modal-action-btn {
   background: #dc2626;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .modal-warning .retro-modal-action-btn {
   background: #d97706;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .modal-info .retro-modal-action-btn {
   background: #0284c7;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .modal-success .retro-modal-action-btn {
   background: #16a34a;
-  box-shadow: none;
+  box-shadow: none !important;
 }
